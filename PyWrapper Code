@@ -1,0 +1,254 @@
+import os
+import subprocess
+import tkinter as tk
+from tkinter import filedialog, messagebox, ttk, scrolledtext
+import threading
+import time
+
+class PyInstallerGUI:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("PyWrapper - Powered By Tian-Tech ytx")
+        self.root.geometry("800x600")
+        
+        # 创建样式
+        style = ttk.Style()
+        style.configure("TButton", padding=6)
+        style.configure("TLabel", padding=5)
+        
+        # 创建框架
+        self.frame = ttk.Frame(self.root, padding="10")
+        self.frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # 创建变量
+        self.script_path = tk.StringVar()
+        self.output_path = tk.StringVar()
+        self.onefile = tk.BooleanVar(value=True)
+        self.windowed = tk.BooleanVar(value=True)
+        self.noconsole = tk.BooleanVar(value=True)
+        self.icon_path = tk.StringVar()
+        
+        # 创建界面元素
+        self.create_widgets()
+    
+    def create_widgets(self):
+        """创建所有GUI元素"""
+        # 脚本选择部分
+        ttk.Label(self.frame, text="1. 选择Python脚本:").grid(row=0, column=0, sticky=tk.W)
+        
+        entry_frame = ttk.Frame(self.frame)
+        entry_frame.grid(row=1, column=0, columnspan=3, sticky=(tk.W, tk.E))
+        
+        self.script_entry = ttk.Entry(entry_frame, textvariable=self.script_path, width=60)
+        self.script_entry.grid(row=0, column=0, sticky=(tk.W, tk.E))
+        
+        browse_btn = ttk.Button(entry_frame, text="浏览", command=self.browse_script)
+        browse_btn.grid(row=0, column=1, padx=(5,0))
+        
+        # 输出目录部分
+        ttk.Label(self.frame, text="2. 选择输出目录:").grid(row=2, column=0, sticky=tk.W)
+        
+        output_frame = ttk.Frame(self.frame)
+        output_frame.grid(row=3, column=0, columnspan=3, sticky=(tk.W, tk.E))
+        
+        self.output_entry = ttk.Entry(output_frame, textvariable=self.output_path, width=60)
+        self.output_entry.grid(row=0, column=0, sticky=(tk.W, tk.E))
+        
+        output_browse_btn = ttk.Button(output_frame, text="浏览", command=self.browse_output)
+        output_browse_btn.grid(row=0, column=1, padx=(5,0))
+        
+        # 打包选项部分
+        ttk.Label(self.frame, text="3. 打包选项:").grid(row=4, column=0, sticky=tk.W, pady=(10,0))
+        
+        self.onefile_check = ttk.Checkbutton(self.frame, text="单文件模式", 
+                                            variable=self.onefile, 
+                                            onvalue=True, offvalue=False)
+        self.onefile_check.grid(row=5, column=0, sticky=tk.W)
+        
+        self.windowed_check = ttk.Checkbutton(self.frame, text="窗口模式(无控制台)", 
+                                             variable=self.windowed, 
+                                             onvalue=True, offvalue=False,
+                                             command=self.toggle_noconsole)
+        self.windowed_check.grid(row=6, column=0, sticky=tk.W)
+        
+        self.noconsole_check = ttk.Checkbutton(self.frame, text="隐藏控制台", 
+                                              variable=self.noconsole, 
+                                              onvalue=True, offvalue=False,
+                                              state=tk.DISABLED)
+        self.noconsole_check.grid(row=6, column=1, sticky=tk.W, padx=(20,0))
+        
+        ttk.Label(self.frame, text="4. 图标文件(可选):").grid(row=7, column=0, sticky=tk.W, pady=(10,0))
+        
+        icon_frame = ttk.Frame(self.frame)
+        icon_frame.grid(row=8, column=0, columnspan=3, sticky=(tk.W, tk.E))
+        
+        self.icon_entry = ttk.Entry(icon_frame, textvariable=self.icon_path, width=60)
+        self.icon_entry.grid(row=0, column=0, sticky=(tk.W, tk.E))
+        
+        icon_browse_btn = ttk.Button(icon_frame, text="浏览", command=self.browse_icon)
+        icon_browse_btn.grid(row=0, column=1, padx=(5,0))
+        
+        # 打包按钮
+        self.pack_btn = ttk.Button(self.frame, text="开始打包", command=self.start_packaging)
+        self.pack_btn.grid(row=9, column=0, columnspan=3, pady=(20,0), ipadx=20)
+        
+        # 日志输出区域
+        ttk.Label(self.frame, text="5. 打包日志:").grid(row=10, column=0, sticky=tk.W, pady=(10,0))
+        
+        self.log_text = scrolledtext.ScrolledText(self.frame, width=70, height=15, state='disabled')
+        self.log_text.grid(row=11, column=0, columnspan=3, pady=(0,10))
+        
+        # 状态标签
+        self.status_label = ttk.Label(self.frame, text="状态: 等待操作", foreground="blue")
+        self.status_label.grid(row=12, column=0, columnspan=3, pady=(10,0))
+    
+    def toggle_noconsole(self):
+        """当窗口模式被选中时，禁用/启用隐藏控制台选项"""
+        if self.windowed.get():
+            self.noconsole_check.state(['!disabled'])
+        else:
+            self.noconsole_check.state(['disabled'])
+            self.noconsole.set(False)
+    
+    def browse_script(self):
+        """浏览并选择Python脚本"""
+        file_path = filedialog.askopenfilename(
+            filetypes=[("Python files", "*.py"), ("All files", "*.*")]
+        )
+        if file_path:
+            self.script_path.set(file_path)
+    
+    def browse_output(self):
+        """浏览并选择输出目录"""
+        dir_path = filedialog.askdirectory()
+        if dir_path:
+            self.output_path.set(dir_path)
+    
+    def browse_icon(self):
+        """浏览并选择图标文件"""
+        file_path = filedialog.askopenfilename(
+            filetypes=[("Icon files", "*.ico"), ("All files", "*.*")]
+        )
+        if file_path:
+            self.icon_path.set(file_path)
+    
+    def log_output(self, message):
+        """记录日志输出"""
+        self.log_text.config(state='normal')
+        self.log_text.insert(tk.END, message + "\n")
+        self.log_text.config(state='disabled')
+        self.log_text.yview(tk.END)  # 自动滚动到底部
+    
+    def start_packaging(self):
+        """开始打包过程，使用线程避免界面卡死"""
+        # 验证输入
+        script = self.script_path.get().strip()
+        output = self.output_path.get().strip()
+        
+        if not script:
+            messagebox.showerror("错误", "请选择Python脚本文件")
+            return
+            
+        if not output:
+            messagebox.showerror("错误", "请选择输出目录")
+            return
+            
+        if not os.path.exists(script):
+            messagebox.showerror("错误", "指定的脚本文件不存在")
+            return
+            
+        if not os.path.exists(output):
+            try:
+                os.makedirs(output)
+            except Exception as e:
+                messagebox.showerror("错误", f"无法创建输出目录: {e}")
+                return
+        
+        # 清空日志
+        self.log_text.config(state='normal')
+        self.log_text.delete(1.0, tk.END)
+        self.log_text.config(state='disabled')
+        
+        # 构建PyInstaller命令
+        cmd = ["pyinstaller", "--clean"]
+        
+        if self.onefile.get():
+            cmd.append("--onefile")
+            
+        if self.windowed.get():
+            cmd.append("--windowed")
+        
+        if self.noconsole.get():
+            cmd.append("--noconsole")
+        
+        icon = self.icon_path.get().strip()
+        if icon:
+            cmd.extend(["--icon", icon])
+        
+        cmd.extend([
+            "--name", os.path.splitext(os.path.basename(script))[0],
+            script
+        ])
+        
+        # 显示状态信息
+        self.status_label.config(text="状态: 打包中...", foreground="green")
+        self.root.update_idletasks()
+        
+        # 禁用打包按钮
+        self.pack_btn.config(state=tk.DISABLED)
+        
+        # 创建线程执行打包
+        self.pack_thread = threading.Thread(target=self.run_packaging, args=(cmd, output))
+        self.pack_thread.start()
+        
+        # 启动进度更新
+        self.update_progress()
+    
+    def run_packaging(self, cmd, output_dir):
+        """实际执行打包的函数，在后台线程中运行"""
+        try:
+            # 执行打包命令
+            process = subprocess.Popen(
+                cmd, 
+                cwd=output_dir, 
+                stdout=subprocess.PIPE, 
+                stderr=subprocess.PIPE, 
+                text=True,
+                bufsize=1  # 行缓冲
+            )
+            
+            # 逐行读取输出
+            for line in iter(process.stdout.readline, ''):
+                self.log_output(line.strip())
+                time.sleep(0.1)  # 避免过于频繁的更新
+                
+            process.stdout.close()
+            process.wait()
+            
+            if process.returncode == 0:
+                self.log_output("打包完成!")
+                self.root.after(0, lambda: messagebox.showinfo("成功", "打包完成!\n输出目录: " + output_dir))
+                self.status_label.config(text="状态: 打包完成", foreground="green")
+            else:
+                error_msg = f"打包失败!\n错误信息:\n{process.stderr.read()}"
+                self.log_output(error_msg)
+                self.root.after(0, lambda: messagebox.showerror("错误", error_msg))
+                self.status_label.config(text="状态: 打包失败", foreground="red")
+        except Exception as e:
+            error_msg = f"执行打包时发生错误: {e}"
+            self.log_output(error_msg)
+            self.root.after(0, lambda: messagebox.showerror("错误", error_msg))
+            self.status_label.config(text="状态: 打包失败", foreground="red")
+        finally:
+            # 启用打包按钮
+            self.root.after(0, lambda: self.pack_btn.config(state=tk.NORMAL))
+    
+    def update_progress(self):
+        """更新进度指示器（可选，这里简单实现）"""
+        # 实际应用中可以添加进度条或动画
+        self.root.after(1000, self.update_progress)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = PyInstallerGUI(root)
+    root.mainloop()

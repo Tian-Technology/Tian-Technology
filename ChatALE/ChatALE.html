@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>天天之家——ChatALE</title>
+<link rel="icon" href="index.ico" type="image/x-icon">
+<style>
+    body {
+        font-family: '黑体', serif;
+        margin: 0;
+        padding: 40px 20px;
+        background: linear-gradient(135deg, #2b2b2b, #1a1a1a);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        background: rgba(43, 43, 43, 0.9);
+        padding: 40px;
+        border: 2px solid #3BDDC6;
+        border-radius: 20px;
+        box-shadow: 0 0 40px rgba(59, 221, 198, 0.3);
+        position: relative;
+    }
+
+    .container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent, #3bddc622);
+        mask: radial-gradient(circle, transparent 85%, #000 85%);
+    }
+
+    h1 {
+        margin-bottom: 30px;
+        color: #3BDDC6;
+        font-weight: bold;
+        text-shadow: 0 0 10px #3BDDC6;
+    }
+
+    p {
+        font-size: 1.1em;
+        line-height: 1.8;
+        color: #ddd;
+        margin: 20px 0;
+        position: relative;
+        padding-left: 30px;
+    }
+
+    p::before {
+        content: '✦';
+        color: #3BDDC6;
+        position: absolute;
+        left: 0;
+        top: 5px;
+    }
+
+    button {
+        padding: 16px 40px;
+        background: linear-gradient(135deg, #3BDDC6, #64A9FF);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1.1em;
+        box-shadow: 0 8px 20px rgba(59, 221, 198, 0.3);
+        margin: 10px;
+		text-align: left
+    }
+
+    button:hover {
+        background: linear-gradient(135deg, #2A6DEB, #4A90E2);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(59, 221, 198, 0.6);
+    }
+
+    a {
+        color: #3BDDC6;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    a:hover {
+        color: #64A9FF;
+    }
+
+    footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #999;
+        font-size: 0.9em;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>ChatALE</h1>
+        <p>ChatALE是ytx编写的人工智能项目！目前还在调试，如有问题欢迎指正！</p>
+        <p>目前已经发布的智能体模型有 3 个！是ChatALE-S1、ChatALE-V1、ChatALE-VR1</p>
+		    </div>
+        <a href="ChatALE-S1.html">
+            <button>ChatALE-S1</button>
+        </a>
+        <a href="ChatALE-V1.html">
+            <button>ChatALE-V1</button>
+        </a>
+        <a href="ChatALEv.html">
+            <button>ChatALE版本更新信息</button>
+        </a>
+        <footer>
+            <a href="home.html">
+                <button>返回</button>
+            </a>
+        </footer>
+
+</body>
+</html>

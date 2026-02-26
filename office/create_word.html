@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tian-Tech - 创建Word文档</title>
+    <!-- 引入外部资源 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- 引入Quill富文本编辑器 -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css" rel="stylesheet">
+    <style>
+        /* 编辑器容器 */
+        .editor-container {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        #editor {
+            height: 600px;
+        }
+
+        /* 工具栏 */
+        .toolbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .toolbar-left {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .toolbar-left {
+                flex-direction: column;
+            }
+
+            #editor {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>Tian-Tech</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#services">产品服务</a></li>
+                <li><a href="index.html#about">关于我们</a></li>
+                <li><a href="index.html#features">核心功能</a></li>
+                <li><a href="index.html#contact">联系我们</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="file_open_word.html" class="btn btn-secondary">预览Word文档</a>
+                <a href="index.html" class="btn btn-secondary">返回首页</a>
+            </div>
+            
+            <button class="menu-toggle" aria-label="切换菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="toolbar">
+            <div class="toolbar-left">
+                <button class="btn btn-primary" id="saveDoc">保存文档</button>
+                <button class="btn btn-success" id="exportDoc">导出为DOCX</button>
+                <button class="btn btn-danger" id="clearDoc">清空文档</button>
+            </div>
+            <div>
+                <a href="index.html" class="btn btn-secondary">返回首页</a>
+            </div>
+        </div>
+
+        <!-- 编辑器容器 -->
+        <div class="editor-container">
+            <div id="editor">
+                <!-- Quill编辑器将在这里初始化 -->
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>&copy; 2024 Tian-Tech 在线办公服务</p>
+        </div>
+    </div>
+
+    <!-- 引入Quill JS -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js"></script>
+    <!-- 引入FileSaver.js用于下载文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+    <!-- 引入docx.js用于创建DOCX文件 -->
+    <script src="https://unpkg.com/docx@7.7.0/build/index.js"></script>
+
+    <script>
+        // 初始化Quill编辑器
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{ 'header': 1 }, { 'header': 2 }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    [{ 'size': ['small', false, 'large', 'huge'] }],
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'font': [] }],
+                    [{ 'align': [] }],
+                    ['clean']
+                ]
+            },
+            placeholder: '开始创建您的文档...'
+        });
+
+        // 保存文档到localStorage
+        document.getElementById('saveDoc').addEventListener('click', function() {
+            const content = quill.root.innerHTML;
+            const title = prompt('请输入文档标题:', '未命名文档');
+            
+            if (title) {
+                const docData = {
+                    title: title,
+                    content: content,
+                    lastModified: new Date().toISOString()
+                };
+                
+                // 保存到localStorage
+                let savedDocs = JSON.parse(localStorage.getItem('tiantech-word-docs') || '[]');
+                savedDocs.push(docData);
+                localStorage.setItem('tiantech-word-docs', JSON.stringify(savedDocs));
+                
+                alert('文档已保存！');
+            }
+        });
+
+        // 清空文档
+        document.getElementById('clearDoc').addEventListener('click', function() {
+            if (confirm('确定要清空当前文档吗？')) {
+                quill.setContents([]);
+            }
+        });
+
+
+
+        // 导出为DOCX文档
+        document.getElementById('exportDoc').addEventListener('click', function() {
+            const title = prompt('请输入文件名:', 'document');
+            
+            if (title) {
+                try {
+                    // 提取文本内容（简化版本，仅支持纯文本）
+                    const textContent = quill.getText();
+                    
+                    // 创建DOCX文档
+                    const doc = new window.docx.Document();
+                    
+                    // 添加段落
+                    doc.addSection({
+                        properties: {},
+                        children: [
+                            new window.docx.Paragraph({
+                                children: [
+                                    new window.docx.TextRun(textContent)
+                                ]
+                            })
+                        ]
+                    });
+                    
+                    // 生成并下载DOCX文件
+                    window.docx.Packer.toBlob(doc).then(function(blob) {
+                        console.log('Blob生成成功:', blob);
+                        saveAs(blob, `${title}.docx`);
+                        alert('文档已成功导出为DOCX格式！');
+                    }).catch(function(error) {
+                        console.error('DOCX生成失败:', error);
+                        alert('导出DOCX失败: ' + error.message);
+                    });
+                } catch (error) {
+                    console.error('导出过程中出错:', error);
+                    alert('导出失败: ' + error.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word文档预览</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>Tian-Tech</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#services">产品服务</a></li>
+                <li><a href="index.html#about">关于我们</a></li>
+                <li><a href="index.html#features">核心功能</a></li>
+                <li><a href="index.html#contact">联系我们</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="create_word.html" class="btn btn-primary">编辑Word文档</a>
+                <a href="index.html" class="btn btn-secondary">返回首页</a>
+            </div>
+            
+            <button class="menu-toggle" aria-label="切换菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header class="animate">
+            <h1>Word文档预览</h1>
+        </header>
+        
+        <div class="controls">
+            <div class="view-controls">
+                <button class="view-btn active" data-view="page">分页视图</button>
+                <button class="view-btn" data-view="continuous">连续视图</button>
+                <button class="view-btn" id="toggleOutline">大纲视图</button>
+            </div>
+            <div class="page-controls">
+                <button class="nav-btn" id="prevPage" disabled>上一页</button>
+                <span class="page-info" id="pageInfo">第 1 / 1 页</span>
+                <button class="nav-btn" id="nextPage" disabled>下一页</button>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <div class="outline-panel" id="outlinePanel">
+                <div class="outline-title">文档大纲</div>
+                <ul class="outline-list" id="outlineList">
+                    <li>加载中...</li>
+                </ul>
+            </div>
+            
+            <div class="preview-area">
+                <div class="file-name" id="fileName"></div>
+                
+                <div id="preview">
+                    <div class="loading">正在加载并转换文档...</div>
+                </div>
+                
+                <!-- 分页视图容器 -->
+                <div class="page-view active" id="pageView">
+                    <!-- 页面内容将动态生成 -->
+                </div>
+                
+                <!-- 连续视图容器 -->
+                <div class="continuous-view" id="continuousView">
+                    <!-- 连续内容将动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入mammoth.js库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.17/mammoth.browser.min.js"></script>
+    
+
+    
+    <script>
+        // 全局变量
+        const fileName = document.getElementById('fileName');
+        const preview = document.getElementById('preview');
+        const pageView = document.getElementById('pageView');
+        const continuousView = document.getElementById('continuousView');
+        const outlinePanel = document.getElementById('outlinePanel');
+        const outlineList = document.getElementById('outlineList');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        const toggleOutlineBtn = document.getElementById('toggleOutline');
+        const viewBtns = document.querySelectorAll('.view-btn');
+        
+        let currentPage = 0;
+        let totalPages = 0;
+        let pages = [];
+        let documentContent = '';
+
+        // 页面加载时处理文档
+        window.addEventListener('load', function() {
+            loadAndPreviewDocument();
+        });
+
+        function loadAndPreviewDocument() {
+            // 从localStorage获取文档数据
+            const base64Data = localStorage.getItem('wordDocumentData');
+            const docName = localStorage.getItem('wordDocumentName');
+
+            if (!base64Data || !docName) {
+                showError('没有找到文档数据，请返回重新选择文件。');
+                return;
+            }
+
+            fileName.textContent = `文件名称: ${docName}`;
+
+            try {
+                // 将base64转换为ArrayBuffer
+                const arrayBuffer = base64ToArrayBuffer(base64Data);
+                
+                // 转换为HTML
+                mammoth.convertToHtml({arrayBuffer: arrayBuffer})
+                    .then(displayResult)
+                    .catch(showError);
+            } catch (error) {
+                showError('文档解析失败: ' + error.message);
+            }
+        }
+
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        function displayResult(result) {
+            // 保存原始HTML内容
+            documentContent = result.value;
+            
+            // 处理图片
+            processImages(result.messages);
+            
+            // 生成大纲
+            generateOutline();
+            
+            // 生成连续视图
+            generateContinuousView();
+            
+            // 生成分页视图
+            generatePageView();
+            
+            // 隐藏原始预览区域
+            preview.style.display = 'none';
+            
+            // 初始化视图
+            updatePageControls();
+        }
+
+        function processImages(messages) {
+            // 查找所有图片引用消息
+            const imageMessages = messages.filter(message => message.type === 'image');
+            
+            imageMessages.forEach(message => {
+                // 创建一个正则表达式来替换图片引用
+                const regex = new RegExp(`<img[^>]*data-mammoth-id="${message.id}"[^>]*>`, 'g');
+                if (message.base64) {
+                    documentContent = documentContent.replace(regex, `<img src="${message.base64}" style="max-width:100%;height:auto;display:block;margin:20px auto;">`);
+                }
+            });
+        }
+
+        function generateOutline() {
+            // 创建一个临时DOM元素来解析HTML
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = documentContent;
+            
+            // 获取所有标题元素
+            const headings = tempDiv.querySelectorAll('h1, h2, h3');
+            
+            if (headings.length === 0) {
+                outlineList.innerHTML = '<li>文档中没有找到标题</li>';
+                return;
+            }
+            
+            // 生成大纲HTML
+            let outlineHTML = '';
+            headings.forEach((heading, index) => {
+                const level = heading.tagName.toLowerCase();
+                const text = heading.textContent;
+                const id = `heading-${index}`;
+                
+                // 给标题添加ID
+                heading.id = id;
+                
+                // 根据标题级别生成缩进
+                const indentClass = `outline-${level}`;
+                outlineHTML += `<li class="${indentClass}"><a href="#${id}" onclick="scrollToHeading('${id}')">${text}</a></li>`;
+            });
+            
+            // 更新文档内容以包含标题ID
+            documentContent = tempDiv.innerHTML;
+            
+            // 显示大纲
+            outlineList.innerHTML = outlineHTML;
+        }
+
+        function generateContinuousView() {
+            continuousView.innerHTML = `<div class="word-content">${documentContent}</div>`;
+        }
+
+        function generatePageView() {
+            // 创建一个临时DOM元素来处理内容
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = `<div class="word-content">${documentContent}</div>`;
+            
+            // 获取所有段落元素
+            const paragraphs = tempDiv.querySelectorAll('p, h1, h2, h3, ul, ol, table, img, blockquote');
+            
+            if (paragraphs.length === 0) {
+                pageView.innerHTML = '<div class="page"><div class="error">文档内容为空</div></div>';
+                totalPages = 1;
+                return;
+            }
+            
+            // 计算每页平均内容量
+            const totalContentLength = documentContent.length;
+            // 基于内容长度设置每页的内容量，这里使用一个合理的估计值
+            const contentPerPage = 3000; // 可根据实际情况调整
+            
+            // 计算总页数
+            totalPages = Math.ceil(totalContentLength / contentPerPage);
+            pages = [];
+            
+            // 将内容分配到不同页面
+            let currentPageContent = '';
+            let currentContentLength = 0;
+            let pageCount = 1;
+            
+            paragraphs.forEach((paragraph, index) => {
+                // 获取当前段落的HTML和长度
+                const paraHTML = paragraph.outerHTML;
+                const paraLength = paraHTML.length;
+                
+                // 如果当前页加上这个段落会超过每页内容量，则创建新页面
+                if (currentContentLength + paraLength > contentPerPage && currentPageContent !== '') {
+                    // 添加当前页
+                    pages.push(`<div class="page" id="page-${pageCount}"><div class="word-content">${currentPageContent}</div><div class="page-number">第 ${pageCount} 页</div></div>`);
+                    pageCount++;
+                    
+                    // 重置当前页内容
+                    currentPageContent = paraHTML;
+                    currentContentLength = paraLength;
+                } else {
+                    // 将段落添加到当前页
+                    currentPageContent += paraHTML;
+                    currentContentLength += paraLength;
+                }
+                
+                // 如果是最后一个段落，添加最后一页
+                if (index === paragraphs.length - 1) {
+                    pages.push(`<div class="page" id="page-${pageCount}"><div class="word-content">${currentPageContent}</div><div class="page-number">第 ${pageCount} 页</div></div>`);
+                }
+            });
+            
+            totalPages = pages.length;
+            
+            // 显示第一页
+            showPage(0);
+        }
+
+        function showPage(pageIndex) {
+            if (pageIndex < 0 || pageIndex >= totalPages) return;
+            
+            currentPage = pageIndex;
+            pageView.innerHTML = pages[pageIndex];
+            updatePageControls();
+        }
+
+        function updatePageControls() {
+            prevPageBtn.disabled = currentPage === 0;
+            nextPageBtn.disabled = currentPage === totalPages - 1;
+            pageInfo.textContent = `第 ${currentPage + 1} / ${totalPages} 页`;
+        }
+
+        function scrollToHeading(headingId) {
+            const heading = document.getElementById(headingId);
+            if (heading) {
+                heading.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // 事件监听器
+        prevPageBtn.addEventListener('click', () => showPage(currentPage - 1));
+        nextPageBtn.addEventListener('click', () => showPage(currentPage + 1));
+        
+        toggleOutlineBtn.addEventListener('click', () => {
+            outlinePanel.classList.toggle('active');
+            toggleOutlineBtn.classList.toggle('active');
+        });
+        
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 移除所有按钮的active类
+                viewBtns.forEach(b => b.classList.remove('active'));
+                
+                // 添加当前按钮的active类
+                btn.classList.add('active');
+                
+                // 切换视图
+                const viewType = btn.dataset.view;
+                if (viewType === 'page') {
+                    pageView.classList.add('active');
+                    continuousView.classList.remove('active');
+                } else if (viewType === 'continuous') {
+                    pageView.classList.remove('active');
+                    continuousView.classList.add('active');
+                }
+            });
+        });
+
+        function showError(error) {
+            preview.innerHTML = `<div class="error">转换失败: ${error}</div>`;
+        }
+    </script>
+</body>
+</html>

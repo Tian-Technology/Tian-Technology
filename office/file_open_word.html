@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word文档预览</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 特定于上传页面的样式 */
+        .upload-section {
+            margin: 30px auto;
+            max-width: 600px;
+            padding: 40px 30px;
+            border: 2px dashed rgba(0, 123, 255, 0.3);
+            border-radius: 16px;
+            background-color: rgba(248, 249, 250, 0.95);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .upload-section:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(240, 248, 255, 0.95);
+            box-shadow: var(--shadow-md);
+        }
+        
+        #fileInput {
+            display: none;
+        }
+        
+        .file-info {
+            margin-top: 15px;
+            color: var(--secondary-color);
+            font-size: 16px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .error {
+            color: #dc3545;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-rocket"></i>
+                <span>Tian-Tech</span>
+            </a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html#home">首页</a></li>
+                <li><a href="index.html#services">产品服务</a></li>
+                <li><a href="index.html#about">关于我们</a></li>
+                <li><a href="index.html#features">核心功能</a></li>
+                <li><a href="index.html#contact">联系我们</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <a href="create_word.html" class="btn btn-primary">编辑Word文档</a>
+                <a href="index.html" class="btn btn-secondary">返回首页</a>
+            </div>
+            
+            <button class="menu-toggle" aria-label="切换菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header class="animate">
+            <h1>Word文档服务</h1>
+            <p>目前我们提供Word文档预览服务和编辑服务。</p>
+        </header>
+        
+        <div class="upload-section">
+            <label for="fileInput" class="btn btn-primary">
+                <i class="fas fa-upload"></i>
+                选择Word文档
+            </label>
+            <input type="file" id="fileInput" accept=".docx">
+            <div class="file-info" id="fileInfo">请选择.docx格式的Word文档</div>
+        </div>
+        
+        <div class="upload-section" style="text-align: center;">
+            <a href="create_word.html" class="btn btn-primary">
+                <i class="fas fa-edit"></i>
+                创建并编辑Word文档
+            </a>
+            <div class="file-info">点击按钮创建新的Word文档进行编辑</div>
+        </div>
+        
+        <div id="status"></div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const status = document.getElementById('status');
+
+        fileInput.addEventListener('change', handleFileUpload);
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // 检查文件格式
+            if (file.type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && 
+                !file.name.toLowerCase().endsWith('.docx')) {
+                showError('请选择.docx格式的Word文档');
+                return;
+            }
+
+            fileInfo.textContent = `已选择文件: ${file.name} (${formatFileSize(file.size)})`;
+            showLoading('正在准备预览...');
+
+            // 读取文件并跳转到预览页面
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // 将文件内容转换为base64字符串以便在localStorage中传递
+                const base64Data = btoa(String.fromCharCode.apply(null, new Uint8Array(e.target.result)));
+                
+                // 保存到localStorage
+                localStorage.setItem('wordDocumentData', base64Data);
+                localStorage.setItem('wordDocumentName', file.name);
+                
+                // 跳转到预览页面
+                window.location.href = 'view_word.html';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function showLoading(message) {
+            status.innerHTML = `<div class="loading">${message}</div>`;
+        }
+
+        function showError(error) {
+            status.innerHTML = `<div class="error">${error}</div>`;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>

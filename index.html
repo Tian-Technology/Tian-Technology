@@ -1,0 +1,2403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=99ABvxRWfIHL"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tian-Tech---致力于科技和前沿技术</title>
+    <link rel="icon" href="天天科技.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 科技感背景 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 50% 50%, #000000, #0f0033, #1a0066),
+                linear-gradient(45deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+                linear-gradient(-45deg, rgba(0, 204, 255, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
+            opacity: 0.15;
+            pointer-events: none;
+            animation: backgroundShift 30s infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* 粒子动画容器 */
+        .particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* 全息投影效果 */
+        .hologram {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, #00ffcc, transparent 30%);
+            animation: rotate 4s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 数据流动画 */
+        .data-stream {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .data-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.5), transparent);
+            animation: dataFlow 15s linear infinite;
+        }
+
+        @keyframes dataFlow {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* 通用样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+            color: #e0e0e0;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+
+        body {
+            background: #000;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 0, 40, 0.8));
+            backdrop-filter: blur(15px) saturate(180%);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid #00ffcc;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+        }
+
+        /* 汉堡菜单样式 */
+        .hamburger-menu {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+            flex-shrink: 0;
+        }
+
+        .hamburger-menu:hover {
+            background: rgba(0, 255, 204, 0.1);
+            color: #00ffcc;
+        }
+
+        /* 导航链接容器样式 */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+            justify-content: center;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+            background-repeat: no-repeat;
+        }
+
+        .control-panel-btn {
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-panel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .control-panel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.6);
+        }
+
+        .control-panel-btn:hover::before {
+            left: 100%;
+        }
+
+        .pro-btn {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            color: #00ffcc;
+        }
+
+        .enterprise-btn {
+            background: rgba(0, 204, 255, 0.1);
+            border: 1px solid #00ccff;
+            border-radius: 4px;
+            padding: 5px 10px;
+            color: #00ccff;
+        }
+
+        .nav-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: inherit;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+            font-weight: bold;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.1), rgba(0, 204, 255, 0.1));
+            border-radius: 4px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffcc 0%, #ff00ff 50%, #00ccff 100%);
+            transform: scaleX(0) perspective(100px) rotateX(45deg);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1) perspective(100px) rotateX(0deg);
+            transform-origin: left;
+        }
+
+        /* 导航菜单样式 */
+        .nav-item {
+            position: relative;
+            display: inline-block;
+        }
+
+        .nav-link-with-menu {
+            margin: 0 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: inherit;
+        }
+
+        .nav-link-with-menu:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+            font-weight: bold;
+        }
+
+        .nav-link-with-menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 204, 0.1), rgba(0, 204, 255, 0.1));
+            border-radius: 4px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-link-with-menu:hover::before {
+            opacity: 1;
+        }
+
+        .nav-link-with-menu::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffcc 0%, #ff00ff 50%, #00ccff 100%);
+            transform: scaleX(0) perspective(100px) rotateX(45deg);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .nav-link-with-menu:hover::after {
+            transform: scaleX(1) perspective(100px) rotateX(0deg);
+            transform-origin: left;
+        }
+
+        .nav-dropdown-menu {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 30, 0.98);
+            border: 2px solid rgba(0, 204, 255, 0.4);
+            border-radius: 0;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: all 0.4s ease;
+            z-index: 1000;
+            display: flex;
+            overflow: hidden;
+            height: auto;
+            max-height: calc(100vh - 60px);
+            box-sizing: border-box;
+        }
+
+        .menu-left-panel {
+            width: 300px;
+            background: rgba(0, 204, 255, 0.1);
+            border-right: 2px solid rgba(0, 204, 255, 0.3);
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            bottom: 0;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        .current-nav-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00ffcc;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 2px solid rgba(0, 255, 204, 0.3);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .category-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .category-btn {
+            background: rgba(0, 204, 255, 0.1);
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #00ffcc;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .category-btn:hover {
+            background: rgba(0, 204, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
+            border-color: #00ffcc;
+        }
+
+        .category-btn.active {
+            background: rgba(0, 255, 204, 0.2);
+            border-color: #00ffcc;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+
+        .menu-right-panel {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(1, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            align-content: start;
+            margin-left: 300px;
+            overflow-y: auto;
+            height: auto;
+            max-height: calc(100vh - 60px);
+        }
+
+        .menu-category {
+            background: rgba(0, 204, 255, 0.1);
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00ffcc;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 255, 204, 0.3);
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
+        }
+
+        .menu-category a {
+            display: block;
+            padding: 12px 14px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 2px solid transparent;
+        }
+
+        .menu-category a:hover {
+            background: rgba(0, 204, 255, 0.2);
+            transform: translateX(8px);
+            border-left-color: #00ffcc;
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .nav-dropdown-menu a:hover {
+            background: rgba(0, 204, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .nav-dropdown-menu > a {
+            padding: 24px 28px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid transparent;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .nav-item:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .main-banner {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('tech-bg.jpg') no-repeat center center/cover;
+            isolation: isolate;
+        }
+
+        .main-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            z-index: -1;
+        }
+
+        .big-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff, #0066ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+            position: relative;
+            display: inline-block;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 15px rgba(0, 204, 255, 0.5); }
+            100% { text-shadow: 0 0 25px rgba(0, 255, 204, 0.8), 0 0 35px rgba(0, 204, 255, 0.6); }
+        }
+
+        .big-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00ffcc, #00ccff, #ff00ff, transparent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .big-title:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .sub-content {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        .tech-section {
+            padding: 100px 5%;
+            position: relative;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .tech-section:nth-child(odd) {
+            background: rgba(10, 0, 20, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-section:nth-child(odd)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px),
+                linear-gradient(-45deg, rgba(0, 204, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            pointer-events: none;
+        }
+
+        .tech-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-section:nth-child(even)::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 50% 50%, transparent, rgba(0, 255, 204, 0.05)),
+                linear-gradient(45deg, rgba(0, 204, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px;
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, #00ffcc, #00ccff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .section-title:hover {
+            transform: scale(1.05);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ffcc 0%, #ff00ff 50%, #00ccff 100%);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .section-title:hover::after {
+            height: 5px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.9);
+        }
+
+        .content-block {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .content-text p {
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.6s ease;
+            z-index: -1;
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ffcc, #00ccff, #ff00ff, #00ffcc);
+            z-index: -2;
+            border-radius: 32px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 5px 25px rgba(0, 255, 204, 0.7);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover::after {
+            opacity: 1;
+            animation: borderAnimation 2s linear infinite;
+        }
+
+        @keyframes borderAnimation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .page-footer {
+            background: linear-gradient(135deg, #000, #2a2a5c);
+            color: white;
+            padding: 20px 5%;
+            font-size: 16px;
+            position: relative;
+            z-index: 10;
+            border-top: 2px solid #00ffcc;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .footer-column a {
+            display: block;
+            margin: 5px 0;
+            color: #ccc;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-column a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, #00ffcc, #00ccff);
+            transition: width 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-column a:hover::before {
+            width: 100%;
+        }
+
+        .social-links .social-icon {
+            margin: 0 10px;
+            color: #888;
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .social-links .social-icon::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 1px solid transparent;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links .social-icon:hover {
+            color: #00ffcc;
+            transform: scale(1.2);
+        }
+
+        .social-links .social-icon:hover::before {
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+
+        .region-lang a,
+        .legal-links a {
+            margin: 5px 10px;
+            color: #888;
+        }
+
+        .region-lang a:hover,
+        .legal-links a:hover {
+            color: white;
+        }
+
+        .copyright p {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+
+        @media (max-width: 768px) {
+            .big-title {
+                font-size: 2.5rem;
+            }
+
+            .sub-content {
+                font-size: 1.2rem;
+            }
+
+            /* 移动端导航栏样式 */
+            .header {
+                padding: 10px 5%;
+                flex-wrap: wrap;
+                position: relative;
+                min-height: 60px;
+            }
+
+            .header-actions {
+                gap: 8px;
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            /* 确保汉堡菜单按钮在移动端正确显示 */
+            .hamburger-menu {
+                display: block !important;
+                position: absolute;
+                right: 5%;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 1001;
+                background: rgba(0, 255, 204, 0.1);
+                border: 1px solid rgba(0, 255, 204, 0.3);
+            }
+
+            /* 导航链接在移动端的样式 */
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 20px 0;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+                z-index: 1000;
+                max-height: calc(100vh - 60px);
+                overflow-y: auto;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            /* 导航链接激活状态 */
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-item {
+                width: 100%;
+                margin-bottom: 0;
+            }
+
+            .nav-link-with-menu {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 15px;
+                margin: 0;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                font-size: 0.9rem;
+            }
+
+            .nav-link-with-menu:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(5px);
+            }
+
+            .nav-dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: transparent;
+                border: none;
+                padding: 0;
+                box-shadow: none;
+                display: none;
+                margin-top: 10px;
+            }
+
+            .nav-item:hover .nav-dropdown-menu {
+                display: block;
+            }
+
+            .menu-left-panel {
+                display: none;
+            }
+
+            .menu-right-panel {
+                margin-left: 0;
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 0;
+            }
+
+            .menu-category {
+                background: rgba(0, 204, 255, 0.05);
+                border: 1px solid rgba(0, 204, 255, 0.1);
+                border-radius: 8px;
+                padding: 10px;
+            }
+
+            .category-title {
+                font-size: 1rem;
+                margin-bottom: 8px;
+            }
+
+            .menu-category a {
+                padding: 8px 10px;
+                margin: 5px 0;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 控制面板悬浮菜单 */
+        .control-panel-menu {
+            position: absolute;
+            top: 100%;
+            right: 5%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 40, 0.9));
+            backdrop-filter: blur(20px) saturate(200%);
+            border: 2px solid #00ffcc;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 300px;
+            box-shadow: 0 10px 40px rgba(0, 255, 204, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.95);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .control-panel-menu.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .control-panel-menu::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 0, 40, 0.9));
+            border-top: 2px solid #00ffcc;
+            border-left: 2px solid #00ffcc;
+            transform: rotate(45deg);
+        }
+
+        .panel-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .panel-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+
+        .panel-btn:hover::before {
+            left: 100%;
+        }
+        
+        /* 导航栏搜索框样式 */
+        .nav-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+        
+        .nav-search-input {
+            width: 200px;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .nav-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .nav-search-input:focus {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+        
+        .nav-search-input:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(0, 204, 255, 0.5);
+        }
+        
+        .nav-search-btn {
+            position: absolute;
+            right: 8px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-search-btn:hover {
+            color: #00ffcc;
+            background: rgba(0, 255, 204, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .nav-search-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* WanQian AI 专栏样式 */
+        .wanqian-intro-section {
+            margin: 60px auto;
+            padding: 50px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px;
+            max-width: 1200px;
+        }
+        
+        .wanqian-container {
+            display: flex;
+            gap: 40px;
+            align-items: stretch;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .wanqian-left {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .wanqian-left h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .wanqian-left p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .wanqian-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .wanqian-btn {
+            position: relative;
+            z-index: 10;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .wanqian-btn.primary {
+            background: #ff6b6b;
+            color: white;
+        }
+        
+        .wanqian-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .wanqian-right {
+            flex: 1.5;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .feature-box {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .feature-box p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .learn-more {
+            position: relative;
+            z-index: 10;
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* 媒体查询 - 移动端适配 */
+        @media (max-width: 768px) {
+        /* 确保汉堡菜单按钮在移动端正确显示 */
+        .hamburger-menu {
+            display: block !important;
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1001;
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+        }
+
+        /* 导航链接样式 */
+        .nav-links {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 20px 0;
+            transform: translateY(-150%);
+            transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* 导航链接激活状态 */
+        .nav-links.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 导航项样式 */
+        .nav-item {
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        /* 导航下拉菜单样式 */
+        .nav-dropdown-menu {
+            position: static;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            box-shadow: none;
+            margin-top: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 导航搜索样式 */
+        .nav-search {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .nav-search-input {
+            width: calc(100% - 50px);
+        }
+
+        /* 菜单面板样式 */
+        .menu-left-panel,
+        .menu-right-panel {
+            width: 100%;
+            padding: 0;
+        }
+        
+        /* Banner Buttons Responsive */
+        .banner-buttons {
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            margin: 20px auto;
+        }
+        
+        .banner-buttons .cta-button {
+            width: 100%;
+            height: auto;
+            min-height: 100px;
+        }
+        
+        /* WanQian Intro Section Responsive */
+        .wanqian-container {
+            flex-direction: column;
+            gap: 20px;
+            padding: 0 20px;
+        }
+        
+        .wanqian-intro-section {
+            padding: 30px 0;
+            margin: 30px auto;
+        }
+        
+        .wanqian-left h2 {
+            font-size: 2rem;
+        }
+        
+        .wanqian-right {
+            grid-template-columns: 1fr;
+        }
+        
+        /* Tech Sections Responsive */
+        .tech-section {
+            padding: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .content-block {
+            padding: 0 10px;
+        }
+        
+        .content-text h3 {
+            font-size: 1.3rem;
+        }
+        
+        .content-text p,
+        .content-text li {
+            font-size: 0.95rem;
+        }
+        
+        .cta-button {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            display: block;
+        }
+        
+        /* Lists Responsive */
+        ul {
+            margin-left: 15px;
+            padding-right: 10px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        /* Main Banner Responsive */
+        .main-banner {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .banner-content {
+            max-width: 100%;
+        }
+        
+        .big-title {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .sub-content {
+            font-size: 1rem;
+        }
+    }
+
+    </style>
+</head>
+<body>
+    <div id="particles-js" class="particles-js"></div>
+    <div class="data-stream"></div>
+    
+
+    <header class="header">
+        <img src="Tech.png" width="120" alt="Tian-Tech Logo">
+        
+        <div class="nav-links" id="navLinks">
+
+            <div class="nav-item">
+                <a href="navigation.html" class="nav-link-with-menu">导航</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">导航中心</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="社区和服务">社区和服务</button>
+                            <button class="category-btn" data-category="技术支持">技术支持</button>
+                            <button class="category-btn" data-category="娱乐">娱乐</button>
+                            <button class="category-btn" data-category="购买和解答">购买和解答</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">社区和服务</div>
+                            <a href="https://tiantechart.mysxl.cn">书画社</a>
+                            <a href="https://tiantechtrain.mysxl.cn">高铁社区</a>
+                            <a href="https://tiantechbook.mysxl.cn">天天博客</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">技术支持</div>
+                            <a href="support.html">支持</a>
+                            <a href="doc.html">产品文档</a>
+                            <a href="answer.html">常见问题解答</a>
+                            <a href="sale.html">销售支持</a>
+                            <a href="buy support.html">购买支持</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">娱乐</div>
+                            <a href="games.html">天天游戏大厅</a>
+                            <a href="snakegame.html">贪吃蛇游戏</a>
+                        </div>
+                         <div class="menu-category">
+                            <div class="category-title">购买和解答</div>
+                            <a href="https://tiantechproduct.mysxl.cn/product">产品</a>
+                            <a href="https://tiantechsale.mysxl.cn">销售</a>
+                            <a href="https://tiantechaccount.mysxl.cn">登录和注册</a>
+                            <a href="https://tiantechsupport.mysxl.cn">售后支持</a>
+                            <a href="https://tiantechaccount.mysxl.cn/activity">活动</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">TianOS</div>
+                            <a href="tianOS/">立即体验TianOS</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">小天才社区</div>
+                            <a href="xtc/">立即体验小天才社区</a>
+                            <a href="xtc/XTCADBCode-Web-main/">校验码计算平台</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">高铁社区</div>
+                            <a href="https://tiantechtrain.mysxl.cn">立即体验高铁社区</a>
+                            <a href="railway/">高铁平台</a>
+                            <a href="railway/train-time.html">列车时刻表</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="AI.html" class="nav-link-with-menu">大模型</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">大模型</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="大模型AI服务平台">大模型AI服务</button>
+                            <button class="category-btn" data-category="WanQian AI助手">WanQian AI助手</button>
+                            <button class="category-btn" data-category="ChatALE大模型">ChatALE模型</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">大模型AI服务平台</div>
+                            <a href="AI.html">Tian-Tech AI大厅</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">WanQian AI助手</div>
+                            <a href="WanQian/index.html">WanQian产品大厅</a>
+                            <a href="WanQian/WanQianCora.html">WanQianCora</a>
+                            <a href="WanQian/WanQian7.html">WanQian7</a>
+                            <a href="WanQian/WanQianTurbo.html">wanQianTurbo</a>
+                            <a href="WanQian/WanQian-Q1.html">WanQian-Q1</a>
+                            <a href="WanQian/WanQian-Q2.html">WanQian-Q2</a>
+                            <a href="WanQian/WanQiandoc.html">WanQian产品更新日志</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">ChatALE大模型</div>
+                            <a href="ChatALEt.html">ChatALE产品大厅</a>
+                            <a href="ChatALE-VR1.html">ChatALE-VR1</a>
+                            <a href="ChatALE-S1.html">ChatALE-S1</a>
+                            <a href="ChatALE-V1t.html">ChatALE-V1</a>
+                            <a href="ChatALE.html">ChatALE旧版产品大厅</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="nav-item">
+                <a href="railway/index.html" class="nav-link-with-menu">高铁之家</a>
+            </div>
+
+            <div class="nav-item">
+                <a href="office/" class="nav-link-with-menu">办公</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">办公服务</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="公司信息">办公服务</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">Tian-Tech在线办公工具</div>
+                            <a href="office/">小天才售后校验码计算平台</a>
+                            <div class="category-title">word服务</div>
+                            <a href="office/view_word.html">word服务大厅</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-item">
+                <a href="xtc/index.html" class="nav-link-with-menu">小天才</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">小天才社区</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="公司信息">公司信息</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">校验码计算平台</div>
+                            <a href="xtc/XTCADBCode-Web-main/index.html">小天才售后校验码计算平台</a>
+                            <div class="category-title">天天科技小天才社区</div>
+                            <a href="xtc/index.html">社区主页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+             <div class="nav-item">
+                <a href="LightningChatHall.html" class="nav-link-with-menu">飞闪</a>
+            </div>
+           
+
+
+            <div class="nav-item">
+                <a href="https://tiantechproduct.mysxl.cn" target="_blank" rel="noopener noreferrer" class="nav-link-with-menu">产品</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">产品</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="产品分类">产品分类</button>
+                            <button class="category-btn" data-category="人工智能平台">AI平台</button>
+                            <button class="category-btn" data-category="文件中心">TianTech编程文件中心</button>
+                            <button class="category-btn" data-category="本地场景软件">本地软件</button>
+                            <button class="category-btn" data-category="社区和服务">社区服务</button>
+                            <button class="category-btn" data-category="技术支持">技术支持</button>
+                            <button class="category-btn" data-category="娱乐">娱乐</button>
+                            <button class="category-btn" data-category="购买和解答">购买解答</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">产品分类</div>
+                            <a href="https://tiantechproduct.mysxl.cn/product">查看我们的产品</a>
+                            <a href="https://tiantechproduct.mysxl.cn">产品页面首页</a>
+                            <a href="product.html">旧版产品介绍</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">人工智能平台</div>
+                            <a href="AI.html">Tian-Tech AI大厅</a>
+                            <a href="WanQian.html">WanQian模型平台</a>
+                            <a href="ChatALEt.html">ChatALE模型平台</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">TianTech编程文件中心</div>
+                            <a href="program/program.php">Tian-Tech 编程文件中心</a>
+                        </div>
+                         <div class="menu-category">
+                            <div class="category-title">Lightning Chat</div>
+                            <a href="LightningChatHall.html">Lightning Chat</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">本地场景软件</div>
+                            <a href="AL.html">ALtualStudio</a>
+                            <a href="PyWrapper.html">PyWrapper</a>
+                            <a href="LightningOS.html">LightningOS</a>
+                            <a href="TaskFlow.html">TaskFlow</a>
+                            <a href="https://tiantechproduct.mysxl.cn/product">全部产品</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">社区和服务</div>
+                            <a href="https://tiantechart.mysxl.cn">书画社</a>
+                            <a href="https://tiantechtrain.mysxl.cn">高铁社区</a>
+                            <a href="https://tiantechbook.mysxl.cn">天天博客</a>
+                        </div>
+                         <div class="menu-category">
+                            <div class="category-title">技术支持</div>
+                            <a href="support.html">支持</a>
+                            <a href="doc.html">产品文档</a>
+                            <a href="answer.html">常见问题解答</a>
+                            <a href="sale.html">销售支持</a>
+                            <a href="buy support.html">购买支持</a>
+                        </div>
+                        <div class="menu-category">
+                            <div class="category-title">娱乐</div>
+                            <a href="games.html">天天游戏大厅</a>
+                            <a href="snakegame.html">贪吃蛇游戏</a>
+                        </div>
+                         <div class="menu-category">
+                            <div class="category-title">购买和解答</div>
+                            <a href="https://tiantechproduct.mysxl.cn/product">产品</a>
+                            <a href="https://tiantechsale.mysxl.cn">销售</a>
+                            <a href="https://tiantechaccount.mysxl.cn">登录和注册</a>
+                            <a href="https://tiantechsupport.mysxl.cn">售后支持</a>
+                            <a href="https://tiantechaccount.mysxl.cn/activity">活动</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        
+
+            <div class="nav-item">
+                <a href="about us.html" class="nav-link-with-menu">关于我们</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">关于我们</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="公司信息">公司信息</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">公司信息</div>
+                            <a href="about us.html#history">发展历程</a>
+                            <a href="about us.html#team">团队介绍</a>
+                            <a href="about us.html#culture">企业文化</a>
+                            <a href="about us.html#contact">联系我们</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="login/index.html" class="nav-link-with-menu">登录和注册</a>
+                <div class="nav-dropdown-menu">
+                    <div class="menu-left-panel">
+                        <div class="current-nav-title">登录和注册</div>
+                        <div class="category-buttons">
+                            <button class="category-btn" data-category="主页功能">登录</button>
+                        </div>
+                    </div>
+                    <div class="menu-right-panel">
+                        <div class="menu-category">
+                            <div class="category-title">主页功能</div>
+                            <a href="login/login.html">登录</a>
+                            <a href="login/register.html">注册</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-actions">
+            <!-- 导航栏搜索框 -->
+            <div class="nav-search">
+                <input type="text" class="nav-search-input" placeholder="TianTech全站搜索..." id="navSearchInput" 
+                       onkeypress="if(event.keyCode==13) searchFromNav()">
+                <button class="nav-search-btn" onclick="searchFromNav()" title="搜索">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 汉堡菜单按钮 -->
+        <button class="hamburger-menu" id="hamburgerMenu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+    </header>
+
+    <section class="main-banner">
+        <div class="banner-content">
+            <h1 class="big-title">智慧AI就在Tian-Tech</h1>
+            <p class="sub-content">
+                AI时代的工作方式
+            </p>
+        </div>
+    </section>
+    
+
+    
+
+<section class="tech-section">
+        <section class="wanqian-intro-section">
+        <div class="wanqian-container">
+            
+            <!-- 左侧细长框 -->
+            <div class="wanqian-left">
+                <h2>WanQian AI助手</h2>
+                <p>
+                    天天科技打造的AI助手，底层采用智谱 AI 提供的 ChatGLM 大模型  能力。具备强大的自然语言理解、代码生成和逻辑推理能力，
+                    为企业和开发者提供全方位的AI解决方案。
+                </p>
+                <div class="wanqian-buttons">
+                    <a href="WanQian/index.html" class="wanqian-btn primary">立即体验</a>
+                    <a href="WanQian/WanQiandoc.html" class="wanqian-btn secondary">查看文档</a>
+                </div>
+            </div>
+            
+            <!-- 右侧6个框 -->
+            <div class="wanqian-right">
+                
+                <div class="feature-box">
+                    <h3>智能对话</h3>
+                    <p>支持多轮对话，理解上下文，提供精准回答</p>
+                    <a href="WanQian/" class="learn-more">了解更多 →</a>
+                </div>
+                
+                <div class="feature-box">
+                    <h3>代码生成</h3>
+                    <p>智能代码补全，支持多种编程语言，提升开发效率</p>
+                    <a href="WanQian/" class="learn-more">了解更多 →</a>
+                </div>
+                
+                <div class="feature-box">
+                    <h3>文档处理</h3>
+                    <p>智能文档分析，内容摘要生成，多格式支持</p>
+                    <a href="WanQian/" class="learn-more">了解更多 →</a>
+                </div>
+                
+                <div class="feature-box">
+                    <h3>逻辑推理</h3>
+                    <p>强大的逻辑分析能力，解决复杂数学和科学问题</p>
+                    <a href="WanQian/" class="learn-more">了解更多 →</a>
+                </div>
+                
+                <div class="feature-box">
+                    <h3>创意生成</h3>
+                    <p>激发创作灵感，支持文案、故事、诗歌等多种创作</p>
+                    <a href="WanQian/" class="learn-more">了解更多 →</a>
+                </div>
+                
+                <div class="feature-box">
+                    <h3>强大算力</h3>
+                    <p>基于ChatGLM的强大算力，支持复杂任务处理</p>
+                    <a href="WanQian/" class="learn-more">了解更多 →</a>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2 class="section-title">主要产品</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>WanQian</h3>
+                <p>WanQian系列产品是Tian-Tech的核心产品线，底层采用智谱 AI 提供的 ChatGLM 大模型 API 能力。我们的产品旨在帮助开发者提高效率、降低成本，并推动技术创新。</p>
+
+                <h3>PyWrapper</h3>
+                <p>专业的Python打包解决方案，轻松将您的Python项目打包成可执行文件，支持Windows、macOS和Linux。</p>
+
+                <h3>ChatALE</h3>
+                <p>AI对话的革新者，支持多轮对话管理和实时知识更新，已在教育、企业服务等多个领域得到应用。</p>
+
+                <h3>ALtual Studio</h3>
+                <p>全功能开发环境，跨平台集成开发工具，支持Kotlin、Python等多语言开发，内置代码分析、调试和测试工具。</p>
+
+                <h3>LightningOS</h3>
+                <p>专业的超高速虚拟操作系统，采用先进的内核技术和优化算法，确保系统运行流畅无阻。</p>
+
+                <h3>EduTrack</h3>
+                <p>老师学籍管理的得力助手，全面记录学生信息，支持成绩管理和考勤管理。</p>
+
+                <h3>CRS Alarm</h3>
+                <p>专为老师开发的课程提醒工具，支持多维度提醒和个性化定制。</p>
+
+                <h3>TeamCollab</h3>
+                <p>一站式协作平台，集成项目管理、代码托管和实时沟通，支持1000人以上团队高效协同工作。</p>
+
+                <h3>QuantumX</h3>
+                <p>量子计算平台，基于量子算法的高性能计算解决方案，适用于密码学、药物研发等复杂科学计算领域。</p>
+                <h3>Culculix</h3>
+                <p>性能发挥到极致的超级计算器，幼儿园到大学的数学计算均可使用，具备高速计算能力，学习的好帮手</p>
+        </div>
+        <div >
+            <a href="https://tiantechproduct.mysxl.cn" target="_blank" rel="noopener noreferrer">点击查看详情</a>
+        </div>
+    </section>
+
+    
+    <section class="tech-section">
+        <h2 class="section-title">WanQian系列大模型</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <p>WanQian系列是Tian-Tech在2025年6月28日推出的大语言模型，具备强大的自然语言理解和生成能力，能够处理各种复杂任务。</p>
+               <h3>模型特点</h3>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+    <li>支持多语言交互，包括中文、英文等多种语言</li>
+    <li>具备强大的对话理解能力，支持多轮对话</li>
+    <li>拥有丰富的知识库，涵盖各个领域的专业知识</li>
+    <li>提供多种模型规格，满足不同场景需求</li>
+    <li>具备超大规模参数量，处理复杂任务游刃有余</li>
+    <li>响应速度快，毫秒级响应时间确保流畅体验</li>
+    <li>高度可定制化，可根据特定行业需求进行优化</li>
+    <li>持续学习更新，保持知识库与时俱进</li>
+    <li>安全可靠，采用先进的数据加密和隐私保护技术</li>
+    <li>易于集成，提供完善的API接口和开发文档</li>
+    <li>卓越的代码生成能力，可协助开发者快速构建应用</li>
+    <li>强大的逻辑推理能力，能够解决复杂的数学和科学问题</li>
+    <li>优秀的创意生成能力，可为内容创作者提供灵感</li>
+    <li>精准的文本分析能力，支持情感分析和内容摘要</li>
+</ul>
+                <p>WanQian系列大模型基于先进的AI技术，经过大量数据训练，能够理解和回答各种领域的问题，是您工作、学习和生活的智能助手。</p>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="WanQian.html" class="cta-button">立即体验WanQian大模型</a>
+            </div>
+        </div>
+    </section>
+
+     <section class="tech-section">
+        <h2 class="section-title">售后支持</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <p>我们提供全方位的售后支持服务，确保您在使用我们产品的过程中无后顾之忧。我们的专业支持团队随时为您解答技术疑问、处理产品问题。</p>
+                <p>这是由Tian-Tech公司于2025年最新搭建的官方客服网站，为用户提供及时、专业的技术支持。</p>
+                <p>注意，TianTech仅有该网站为正版售后支持网站！</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li>7x24小时在线技术支持</li>
+                    <li>快速响应的问题处理机制</li>
+                    <li>定期的产品更新与维护</li>
+                    <li>专业的技术培训服务</li>
+                </ul>
+            </div>
+            <a href="https://tiantechsupport.mysxl.cn" target="_blank" rel="noopener noreferrer" class="cta-button">点击查看详细信息</a>
+        </section>
+
+        <section class="tech-section">
+        <h2 class="section-title">天天博客</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <p>这是Tian-Tech公司的官方博客网站，为用户提供技术分享、产品资讯、行业动态等内容。</p>
+                <p>这是由Tian-Tech公司于2025年最新搭建的官方微博网站</p>
+                <p>注意，TianTech仅有该网站为正版博客网站！</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li>新版天天博客的优化点</li>
+                    <li>更官方的博客界面</li>
+                    <li>更优美的交互界面</li>
+                    <li>更丰富的博客内容</li>
+                </ul>
+            </div>
+            <div>
+            <a href="https://tiantechbook.mysxl.cn" target="_blank" rel="noopener noreferrer" class="cta-button">进入新版博客</a>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li>如果您还是喜欢原版天天博客的复杂交互界面和复古的内容，</li>
+                    <li>可以在原版博客的基础上进行定制化开发</li>
+                    <li>如果您想定制化开发原版博客，</li>
+                    <li>选择旧版博客是最好的选择。</li>
+                </ul>
+            <a href="book.html">进入旧版博客</a>
+            </div>
+        </section>
+
+        <section class="tech-section">
+        <h2 class="section-title">购买渠道</h2>
+            <div class="content-block">
+                <div class="content-text">
+                 <p>这是Tian-Tech唯一官方购买渠道，可以在这里购买我们的产品。</p>
+                </div>
+                <a href="https://tiantechsale.mysxl.cn" target="_blank" rel="noopener noreferrer" class="cta-button">点击购买</a>
+            </div>
+</section>
+
+        <section class="tech-section">
+        <h2 class="section-title">动车组车迷之家</h2>
+            <div class="content-block">
+                <div class="content-text">
+                 <p>欢迎来到我们公司的动车组车迷之家！这里汇聚了众多热爱动车组的朋友，分享最新资讯、交流技术知识。</p>
+                </div>
+                <a href="https://tiantechtrain.mysxl.cn" target="_blank" rel="noopener noreferrer" class="cta-button">点击查看详细信息</a>
+            </div>
+</section>
+   <section class="tech-section">
+        <h2 class="section-title">LightningChat</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <p>这是我们最新研发的即时通讯页面，目前仍然属于调试中</p>
+            </div>
+            <a href="LightningChat.php" class="cta-button" style="display: inline-block; margin: 0 auto;">
+                        点击尝试（调试中）
+                    </a>
+        </section>
+<section class="tech-section">
+        <h2 class="section-title">开源项目</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>开放共享，共创未来</h3>
+                <p>我们坚信开源是推动技术进步的重要力量。天天科技将部分核心项目开源，欢迎全球开发者共同参与改进。</p>
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="code.html" class="cta-button" style="display: inline-block; margin: 0 auto;">
+                        查看开源项目
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 新增代码资源栏目 -->
+    <section class="tech-section">
+        <h2 class="section-title">代码资源</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>开发者资源中心</h3>
+                <p>访问我们的代码资源中心，获取丰富的开发工具、代码示例和技术文档，助力您的开发之旅。</p>
+                <p>我们提供：</p>
+                <ul style="margin-left: 20px; margin-bottom: 20px;">
+                    <li>完整的API文档和SDK下载</li>
+                    <li>实用的代码示例和最佳实践</li>
+                    <li>技术教程和开发指南</li>
+                    <li>社区贡献的优秀项目</li>
+                </ul>
+                
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="code.html" class="cta-button" style="display: inline-block; margin: 0 auto;">
+                        探索代码资源
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="tech-section">
+        <h2 class="section-title">客户案例</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>教育行业解决方案</h3>
+                <p>为全国500+学校提供智能教学管理系统，帮助教师提升工作效率30%，学生成绩平均提升15%。典型案例包括XX中学的智能排课系统和YY大学的学情分析平台。</p>
+
+                <h3>企业数字化转型</h3>
+                <p>服务100+企业客户，包括世界500强企业10家。为ZZ集团打造的智能客服系统，每年节省人力成本200万元，客户满意度提升25%。</p>
+
+                <h3>科研机构合作</h3>
+                <p>与中科院、清华等顶尖科研机构合作，开发量子计算模拟平台，加速新材料研发进程，将实验周期从6个月缩短至2周。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2 class="section-title">技术优势</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>高性能架构</h3>
+                <p>采用微服务架构和分布式计算，系统吞吐量可达10万TPS，响应时间低于50ms，支持亿级用户并发访问。</p>
+
+                <h3>安全可靠</h3>
+                <p>通过ISO 27001认证，采用多层加密和零信任架构，确保数据安全。系统可用性达99.99%，年故障时间不超过1小时。</p>
+
+                <h3>智能算法</h3>
+                <p>自主研发的AI算法在NLP和CV领域达到行业领先水平，在多个国际评测中排名前3，已申请50+技术专利。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2 class="section-title">前沿科技</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>人工智能技术</h3>
+                <p>我们专注于AI算法优化，实现自然语言处理、计算机视觉等前沿应用，助力企业智能化转型。结合深度学习与强化学习，打造自适应智能系统，覆盖医疗、金融、零售等多领域场景。</p>
+
+                <h3>元宇宙技术</h3>
+                <p>构建沉浸式元宇宙场景，融合VR/AR与数字孪生技术，打造虚拟交互空间。开发去中心化虚拟资产系统，实现社交、娱乐、办公等多场景的元宇宙应用落地。</p>
+                <h3>生物科技融合</h3>
+            <p>结合AI与基因编辑技术，开发精准医疗解决方案，助力疾病早期筛查与个性化治疗。利用大数据分析生物信息，推动合成生物学发展，探索环保、医药领域的创新应用。</p>
+
+            <h3>自动驾驶技术</h3>
+            <p>研发高阶自动驾驶算法，整合激光雷达与视觉感知技术，提升行车安全与效率。构建车路协同系统，推动智能交通网络建设，加速自动驾驶在物流、出行领域的商业化应用。</p>
+
+            <h3>数字孪生技术</h3>
+            <p>创建物理世界的数字化镜像，实现工业设备、城市管理的实时仿真与预测。通过数字孪生优化资源配置，为智慧工厂、智能建筑提供全生命周期管理解决方案。</p>
+
+            <h3>区块链创新</h3>
+            <p>探索区块链分布式存储技术，构建安全可信的去中心化解决方案，引领行业新趋势。开发多链协同架构，实现数据高效加密与共享，为供应链金融、数字版权提供底层技术支持。</p>
+
+            <h3>量子计算应用</h3>
+            <p>聚焦量子计算前沿研究，开发高效量子算法，为复杂科学计算提供突破性解决方案。联合科研机构，推动量子芯片与算法落地，加速密码学、材料科学领域的研究进展。</p>
+
+            <h3>物联网技术</h3>
+            <p>构建万物互联生态，通过低功耗传感器与边缘计算，实现设备高效协同。应用于智慧交通、智能工厂，打造实时感知、智能决策的物联网解决方案。</p>
+
+            <h3>云计算与边缘计算</h3>
+            <p>提供弹性云计算服务，结合边缘计算技术，降低数据处理延迟。支持企业快速部署云端应用，优化数据存储与计算资源分配，提升数字化运营效率。</p>
+
+            <h3>扩展现实(XR)</h3>
+            <p>研发新一代XR交互引擎，突破空间定位与手势识别技术，打造沉浸式教育/培训解决方案。已与多家制造企业合作开发工业维修仿真系统，培训效率提升60%。</p>
+
+            <h3>可持续能源科技</h3>
+            <p>开发智能电网管理系统，结合AI预测算法优化能源分配。研发新型储能材料，将电池能量密度提升40%，助力新能源产业突破发展瓶颈。</p>
+            </div>
+        </div>
+    </section>
+    <section class="tech-section">
+        <h2 class="section-title">使用场景</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>教育领域</h3>
+                <p>智能排课系统、学情分析平台、在线考试系统，帮助教育机构实现数字化管理，提升教学质量和效率。</p>
+
+                <h3>企业服务</h3>
+                <p>智能客服、数据分析平台、协同办公系统，助力企业降本增效，实现数字化转型。</p>
+
+                <h3>科研创新</h3>
+                <p>高性能计算平台、量子模拟系统、大数据分析工具，为科研人员提供强大技术支持。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2 class="section-title">我们的团队</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>技术专家</h3>
+                <p>来自Google、Microsoft等顶尖科技公司的资深工程师，平均10年以上行业经验，掌握前沿技术。</p>
+
+                <h3>行业顾问</h3>
+                <p>各领域专家组成顾问团队，确保产品设计符合行业需求，解决实际问题。</p>
+
+                <h3>研发投入</h3>
+                <p>每年将营收的30%投入研发，持续创新，保持技术领先优势。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="page-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>产品</h4>
+                <a href="ChatALEt.html">ChatALE</a>
+                <a href="AL.html">ALtual Studio</a>
+                <a href="https://www.jetbrains.com" target="_blank" rel="noopener noreferrer">团队工具</a>
+                <a href="https://www.adobe.com" target="_blank" rel="noopener noreferrer">插件</a>
+                <a href="https://www.xkw.com" target="_blank" rel="noopener noreferrer">教育</a>
+                <a href="https://www.iciba.com" target="_blank" rel="noopener noreferrer">语言</a>
+                <a href="product.html">所有产品</a>
+            </div>
+            <div class="footer-column">
+                <h4>解决方案</h4>
+                <a href="https://www.jyshare.com/compile/12/" target="_blank" rel="noopener noreferrer">C++ 工具</a>
+                <a href="number.html">数据工具</a>
+                <a href="devops.html">DevOps</a>
+                <a href="game.html">游戏开发</a>
+                <a href="#">业务工具</a>
+            </div>
+            <div class="footer-column">
+                <h4>计划</h4>
+                <a href="Kotlin.html">Kotlin</a>
+                <a href="ChatSER.html">ChatSER</a>
+                <a href="research.html">Tain tech Research</a>
+                <a href="chatALE-V1t.html">开源项目</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>资源</h4>
+                <a href="buy support.html">销售支持</a>
+                <a href="pro support.html">产品支持</a>
+                <a href="answer.html">许可常见问题解答</a>
+                <a href="doc.html">文档</a>
+                <a href="try.html">抢先体验</a>
+                <a href="activity.html">活动和直播</a>
+            </div>
+            <div class="footer-column">
+                <h4>公司</h4>
+                <a href="about us.html">关于我们</a>
+                <a href="call.html">联系方式</a>
+                <a href="find.html">招贤纳士</a>
+                <a href="news.html">新闻</a>
+                <a href="#">客户和荣誉</a>
+                <a href="#">我们的承诺</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="region-lang">
+                <a href="#">中国大陆</a>
+                <a href="#">简体中文</a>
+            </div>
+            <div class="legal-links">
+                <a href="private and safe.html">隐私和安全</a>
+                <a href="private doc.html">隐私声明</a>
+                <a href="rules.html">使用条款</a>
+                <a href="from.html">归属</a>
+                <a href="law.html">法律信息</a>
+                <a href="https://www.jyshare.com/" target="_blank" rel="noopener noreferrer">正版工具</a>
+            </div>
+            <div class="copyright">
+                <p>Copyright © 2024-2025 T.Technology</p>
+                <p>Developed with CELECORGE</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // 防止F12查看源代码
+        document.addEventListener('keydown', function(e) {
+            // 禁用F12键
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // 禁用Ctrl+Shift+I (开发者工具)
+            if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            // 禁用Ctrl+Shift+J (控制台)
+            if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            // 禁用Ctrl+U (查看源代码)
+            if (e.ctrlKey && e.key === 'U') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // 禁用右键菜单
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // 禁用文本选择和复制
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // 禁用拖拽
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // 导航栏搜索功能
+        function searchFromNav() {
+            const searchInput = document.getElementById('navSearchInput');
+            const keyword = searchInput.value.trim();
+            
+            if (keyword) {
+                // 跳转到search.php页面并传递搜索关键词（使用q参数）
+                window.location.href = 'search.php?q=' + encodeURIComponent(keyword);
+            }
+        }
+        
+        // 粒子效果配置
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00ccff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#00ccff",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" }
+                },
+                modes: {
+                    grab: {
+                        distance: 200,
+                        line_linked: {
+                            opacity: 0.8
+                        }
+                    }
+                }
+            }
+        });
+
+        // 粒子跟随鼠标移动效果
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // 影响粒子行为
+            if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS.particles) {
+                const particles = window.pJSDom[0].pJS.particles.array;
+                const canvas = window.pJSDom[0].pJS.canvas.el;
+                const rect = canvas.getBoundingClientRect();
+                
+                particles.forEach(p => {
+                    const dx = mouseX - (p.x + rect.left);
+                    const dy = mouseY - (p.y + rect.top);
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 200) {
+                        const force = (200 - distance) / 200;
+                        p.vx += dx * 0.0005 * force;
+                        p.vy += dy * 0.0005 * force;
+                    }
+                });
+            }
+        });
+
+        // 数据流动画生成
+        const dataStream = document.querySelector('.data-stream');
+        const lineCount = 20;
+
+        for (let i = 0; i < lineCount; i++) {
+            const line = document.createElement('div');
+            line.className = 'data-line';
+            line.style.top = Math.random() * 100 + 'vh';
+            line.style.width = Math.random() * 300 + 100 + 'px';
+            line.style.opacity = Math.random() * 0.5 + 0.1;
+            line.style.animationDuration = Math.random() * 15 + 10 + 's';
+            line.style.animationDelay = -(Math.random() * 15) + 's';
+            dataStream.appendChild(line);
+        }
+
+        // 动态网格背景
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.body.style.setProperty('--mouse-x', x);
+            document.body.style.setProperty('--mouse-y', y);
+        });
+
+        // 控制面板悬停效果
+        const controlPanelBtn = document.getElementById('controlPanelBtn');
+        const controlPanelMenu = document.getElementById('controlPanelMenu');
+        let hideTimeout;
+
+        controlPanelBtn.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+            controlPanelMenu.classList.add('active');
+        });
+
+        controlPanelBtn.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                controlPanelMenu.classList.remove('active');
+            }, 300);
+        });
+
+        controlPanelMenu.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+            controlPanelMenu.classList.add('active');
+        });
+
+        controlPanelMenu.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                controlPanelMenu.classList.remove('active');
+            }, 300);
+        });
+
+        // 点击其他地方关闭面板
+        document.addEventListener('click', (e) => {
+            if (!controlPanelBtn.contains(e.target) && !controlPanelMenu.contains(e.target)) {
+                controlPanelMenu.classList.remove('active');
+            }
+        });
+
+
+
+        // 分类按钮点击功能
+        function setupCategoryButtons() {
+            console.log('Setting up category buttons...');
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            console.log('Found', categoryButtons.length, 'category buttons');
+            
+            categoryButtons.forEach(button => {
+                console.log('Adding click listener to button:', button.textContent);
+                button.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // 移除当前下拉菜单中所有按钮的active类
+                    const currentDropdown = this.closest('.nav-dropdown-menu');
+                    currentDropdown.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                    // 为当前按钮添加active类
+                    this.classList.add('active');
+                    
+                    // 在当前下拉菜单中查找对应的category-title
+                    const categoryTitles = currentDropdown.querySelectorAll('.category-title');
+                    let targetElement = null;
+                    
+                    categoryTitles.forEach(title => {
+                        if (title.textContent === category) {
+                            targetElement = title.closest('.menu-category');
+                        }
+                    });
+                    
+                    if (targetElement) {
+                        // 设置锚点ID并滚动到对应位置
+                        const anchorId = 'category-' + category.replace(/\s+/g, '-').toLowerCase();
+                        targetElement.id = anchorId;
+                        
+                        // 更新URL哈希
+                        window.location.hash = anchorId;
+                        
+                        // 滚动到对应区域
+                        const rightPanel = currentDropdown.querySelector('.menu-right-panel');
+                        const offsetTop = targetElement.offsetTop - 20;
+                        
+                        rightPanel.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                        
+                        console.log('Scrolling to category:', category, 'offsetTop:', offsetTop);
+                    } else {
+                        console.log('Target element not found for category:', category);
+                    }
+                });
+            });
+        }
+
+        // 在DOM加载完成后初始化分类按钮
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing category buttons...');
+            try {
+                setupCategoryButtons();
+            } catch (error) {
+                console.error('Error setting up category buttons:', error);
+            }
+        });
+
+        // 添加全局错误处理
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+        });
+
+        // 汉堡菜单交互功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取汉堡菜单和导航链接元素
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const navLinks = document.getElementById('navLinks');
+
+            // 确保元素存在
+            if (hamburgerMenu && navLinks) {
+                // 汉堡菜单点击事件
+                hamburgerMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // 切换导航链接的active类
+                    navLinks.classList.toggle('active');
+                });
+
+                // 点击导航项时关闭菜单
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            navLinks.classList.remove('active');
+                        }
+                    });
+                });
+
+                // 窗口大小改变时调整菜单状态
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        // 大屏幕时始终显示菜单
+                        navLinks.classList.remove('active');
+                    } else {
+                        // 小屏幕时默认隐藏菜单
+                        navLinks.classList.remove('active');
+                    }
+                });
+            }
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天天之家</title>
+    <link rel="icon" href="index.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: '黑体', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+       .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 5vh auto;
+            background: linear-gradient(45deg, #2d2d2d, #111111);
+            padding: 5%;
+            box-shadow: 0 0 40px rgba(59, 221, 198, 0.3);
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+       .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, #3bddc633);
+            mask: radial-gradient(circle, transparent 80%, #000 80%);
+        }
+
+        h1 {
+            margin-bottom: 3rem;
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-weight: bold;
+            color: #3BDDC6;
+            text-shadow: 0 0 10px #3BDDC6;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-family: 'Microsoft YaHei', sans-serif;
+            font-weight: bold;
+            color: #31ADE4;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: #fff;
+            margin: 1.5rem 0;
+        }
+
+        a {
+            display: inline-block;
+            margin: 1rem;
+            color: #3BDDC6;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        a::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #3BDDC6;
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        a:hover::before {
+            transform: scaleX(1);
+        }
+
+        button {
+            padding: 1.2em 3em;
+            background: linear-gradient(135deg, #3BDDC6, #64A9FF);
+            font-family: "微软雅黑";
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 20px rgba(59, 221, 198, 0.3);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2A6DEB, #4A90E2);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(59, 221, 198, 0.5);
+        }
+
+       .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            button {
+                padding: 1em 2em;
+                font-size: 1em;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 0.7rem;
+            }
+
+            p {
+                font-size: 1em;
+            }
+        }
+
+       .weekday-message {
+            display: none;
+            text-align: center;
+            font-size: 2em;
+            color: #3BDDC6;
+            margin-top: 20vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>天天之家</h1>
+        <h2>基于 Tian-Tech</h2>
+        <p>这是ytx的创意自编网站！你可以在这个网站找到一些有意思的东西！</p>
+        <a href="personal information.html"  >
+            <button>个人信息</button>
+        </a>
+        <a href="goodfriends.html"  >
+            <button>好友专属通道</button>
+        </a>
+        <a href="version.html"  >
+            <button>版本更新信息</button>
+        </a>
+        <a href="table.html"  >
+            <button>公告栏</button>
+        </a>
+        <a href="download.html"  >
+            <button>下载资源</button>
+        </a>
+        <a href="snakegame.html"  >
+            <button>贪吃蛇游戏</button>
+        </a>
+        <a href="emu.html"  >
+            <button>中国国家动车组</button>
+        </a>
+        <a href="deepseek.html"  >
+            <button>DeepSeek</button>
+        </a>
+        <a href="tools.html"  >
+            <button>实用工具</button>
+        </a>
+        <a href="ChatALE.html"  >
+            <button>ChatALE</button>
+        </a>
+        <a href="windows beta.html"  >
+            <button>Windows Beta</button>
+        </a>
+        <a href="manus.html"  >
+            <button>Manus</button>
+        </a>
+        <a href="BEYOND.html"  >
+            <button>BEYOND</button>
+        </a>
+        <a href="/index.html"  >
+            <button>Tian-Tech</button>
+        </a>
+        <p>网站会陆续更新的哦！</p>
+        <p>版本号：3.1.0   最近一次更新时间：2025.6.7</p>
+        <p>现在天天之家已经并入天天科技！</p>
+        <p>现在重心已将放在天天科技了哦！</p>
+        <p>&copy; 2025天天之家. 版权所有，仿冒必究.</p>
+    </div>
+    
+    <div class="loading-overlay"></div>
+    
+    <script>
+        function showLoading(event, href) {
+            event.preventDefault();
+            document.querySelector('.loading-overlay').style.display = 'flex';
+            window.location.href = href;
+        }
+    </script>
+</body>
+
+</html>    

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="天天科技.ico" type="image/x-icon">
+    <title>天天博客——操作系统安装教程</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e6f7ff; /* 浅蓝背景 */
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .nav-bar {
+            background-color: #007bff; /* 深蓝导航栏 */
+            padding: 10px 15px; /* 降低内边距 */
+            border-bottom: 1px solid #4da6ff;
+            display: flex;
+            justify-content: flex-end;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            margin: 0;
+            font-size: 2rem; /* 适当减小标题字体 */
+            color: #fff;
+            margin-right: auto;
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 1rem; /* 减小链接字体 */
+            transition: color 0.3s;
+        }
+
+        .nav-bar a:hover {
+            color: #cce6ff;
+        }
+
+        header {
+            background-color: white; /* 深蓝头部 */
+            padding: 30px 20px;
+            border-bottom: 1px solid #4da6ff;
+            text-align: left;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: #75a4f4;
+            text-align: left;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .tech-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tech-card {
+            flex: 1;
+            min-width: 200px;
+            background-color: #fff; /* 白色卡片 */
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #4da6ff;
+            text-align: center;
+        }
+
+        .tech-card h3 {
+            color: #007bff;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .tech-card a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+
+        footer {
+            display: none; /* 隐藏页脚 */
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <h1>天天博客</h1>
+        <a href="book.html">博客首页</a>
+        <a href="text.html">电脑技术教程</a>
+        <a href="system.html">操作系统与服务器</a>
+        <a href="software.html">软件评测</a>
+        <a href="about us.html">关于我们</a>
+        <a href="support.html">技术支持</a>
+    </div>
+    <header>
+        <h1>操作系统安装教程：主流系统指南</h1>
+    </header>
+    <div class="content">
+        <div class="tech-nav">
+            <div class="tech-card">
+                <a href="os/windows_install.html">
+                    <h3>Windows安装教程</h3>
+                    <p>Windows各版本安装详细步骤指南</p>
+                </a>
+            </div>
+            <div class="tech-card">
+                <a href="os/linux_install.html">
+                    <h3>Linux安装教程</h3>
+                    <p>常见Linux发行版安装指导，如Ubuntu、CentOS等</p>
+                </a>
+            </div>
+            <div class="tech-card">
+                <a href="os/macos_install.html">
+                    <h3>macOS安装教程</h3>
+                    <p>苹果操作系统安装全流程说明</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

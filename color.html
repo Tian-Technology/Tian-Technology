@@ -1,0 +1,1282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>在线RGB颜色代码生成器 - 工具之家</title>
+        <meta name="author" content="Pin5i.Com">
+        <meta name="copyright" content="copyright 2007-2011, Pin5i.Com">
+        <link rel="icon" href="favicon.ico">
+        <meta name="description" content="在线颜色生成器">
+        <meta name="keywords" content="颜色生成器,在线颜色生成器,在线取色器,color,scheme,color scheme,color schemer,colorschemer,rgb,hex,web color,html color,color pick,pick,picker">
+        <link rel="STYLESHEET" type="text/css" href="default.css">
+        <script language="JavaScript" type="text/javascript" src="funcs.js"></script>
+    </head>
+    <body leftmargin="0" topmargin="0" rightmargin="0" onload="ChangeColors(51,102,255);" marginheight="0" marginwidth="0" text="#000000" bgcolor="#FCFCF9">
+        <div id="ColorInput">
+            <div class="sideHead">当前选中颜色</div>
+            <div class="currentBorder">
+                <div style="background-color: rgb(255, 255, 255);" id="currentColor">&nbsp;</div>
+            </div>
+            <form name="codes" id="codes">
+                <div class="currentBorder">
+                    <div class="navBox">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td>R:</td>
+                                    <td>
+                                        <input name="r" value="255" maxlength="3" class="rgbBox" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>G:</td>
+                                    <td>
+                                        <input name="g" value="255" maxlength="3" class="rgbBox" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>B:</td>
+                                    <td>
+                                        <input name="b" value="255" maxlength="3" class="rgbBox" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input class="button" value="设置RGB值" onclick="ChangeColors(document.getElementById('codes').r.value,document.getElementById('codes').g.value,document.getElementById('codes').b.value);" type="button">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        #<input class="hexBox" name="hex" value="FFFFFF" maxlength="6" type="text">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <input class="button" value="设置HEX值" onclick="SetHex(document.getElementById('codes').hex.value);" type="button">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <input class="button" value="浅色渐变" onclick="LightenScheme();" style="margin-bottom: 0px;" type="button">
+                        <input class="button" value="深色渐变" onclick="DarkenScheme();" type="button">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="Wheel" align="center">
+            <div id="swatch0" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="0" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="0RGB" class="rgb">255.255.255</div>
+                <div id="0HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch1" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="1" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="1RGB" class="rgb">255.255.255</div>
+                <div id="1HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch2" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="2" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="2RGB" class="rgb">255.255.255</div>
+                <div id="2HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch3" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="3" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="3RGB" class="rgb">255.255.255</div>
+                <div id="3HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch4" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="4" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="4RGB" class="rgb">255.255.255</div>
+                <div id="4HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch5" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="5" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="5RGB" class="rgb">255.255.255</div>
+                <div id="5HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch6" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="6" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="6RGB" class="rgb">255.255.255</div>
+                <div id="6HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch7" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="7" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="7RGB" class="rgb">255.255.255</div>
+                <div id="7HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch8" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="8" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="8RGB" class="rgb">255.255.255</div>
+                <div id="8HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch9" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="9" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="9RGB" class="rgb">255.255.255</div>
+                <div id="9HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch10" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="10" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="10RGB" class="rgb">255.255.255</div>
+                <div id="10HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatch11" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(255, 255, 255);" id="11" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="11RGB" class="rgb">255.255.255</div>
+                <div id="11HEX" class="hex">#FFFFFF</div>
+            </div>
+            <div id="swatchm1" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(224, 224, 224);" id="m1" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="m1RGB" class="rgb">224.224.224</div>
+                <div id="m1HEX" class="hex">#E0E0E0</div>
+            </div>
+            <div id="swatchm2" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(194, 194, 194);" id="m2" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="m2RGB" class="rgb">194.194.194</div>
+                <div id="m2HEX" class="hex">#C2C2C2</div>
+            </div>
+            <div id="swatchm3" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(224, 224, 224);" id="m3" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="m3RGB" class="rgb">224.224.224</div>
+                <div id="m3HEX" class="hex">#E0E0E0</div>
+            </div>
+            <div id="swatchm4" class="swatch">
+                <div class="border">
+                    <div style="background-color: rgb(194, 194, 194);" id="m4" class="color" onclick="SetHex(this.style.backgroundColor);">&nbsp;</div>
+                </div>
+                <div id="m4RGB" class="rgb">194.194.194</div>
+                <div id="m4HEX" class="hex">#C2C2C2</div>
+            </div>
+        </div>
+        <script language="JavaScript">
+            DrawPalette();
+        </script>
+        <div id="palette">
+            <table bgcolor="#000000" border="0" cellpadding="0" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <td height="11" width="11" bgcolor="#000000">
+                            <a href="#" onclick="ChangeColors(0,0,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#000033">
+                            <a href="#" onclick="ChangeColors(0,0,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#000066">
+                            <a href="#" onclick="ChangeColors(0,0,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#000099">
+                            <a href="#" onclick="ChangeColors(0,0,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0000CC">
+                            <a href="#" onclick="ChangeColors(0,0,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0000FF">
+                            <a href="#" onclick="ChangeColors(0,0,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#003300">
+                            <a href="#" onclick="ChangeColors(0,51,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#003333">
+                            <a href="#" onclick="ChangeColors(0,51,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#003366">
+                            <a href="#" onclick="ChangeColors(0,51,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#003399">
+                            <a href="#" onclick="ChangeColors(0,51,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0033CC">
+                            <a href="#" onclick="ChangeColors(0,51,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0033FF">
+                            <a href="#" onclick="ChangeColors(0,51,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#006600">
+                            <a href="#" onclick="ChangeColors(0,102,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#006633">
+                            <a href="#" onclick="ChangeColors(0,102,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#006666">
+                            <a href="#" onclick="ChangeColors(0,102,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#006699">
+                            <a href="#" onclick="ChangeColors(0,102,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0066CC">
+                            <a href="#" onclick="ChangeColors(0,102,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0066FF">
+                            <a href="#" onclick="ChangeColors(0,102,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#009900">
+                            <a href="#" onclick="ChangeColors(0,153,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#009933">
+                            <a href="#" onclick="ChangeColors(0,153,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#009966">
+                            <a href="#" onclick="ChangeColors(0,153,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#009999">
+                            <a href="#" onclick="ChangeColors(0,153,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0099CC">
+                            <a href="#" onclick="ChangeColors(0,153,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#0099FF">
+                            <a href="#" onclick="ChangeColors(0,153,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00CC00">
+                            <a href="#" onclick="ChangeColors(0,204,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00CC33">
+                            <a href="#" onclick="ChangeColors(0,204,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00CC66">
+                            <a href="#" onclick="ChangeColors(0,204,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00CC99">
+                            <a href="#" onclick="ChangeColors(0,204,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00CCCC">
+                            <a href="#" onclick="ChangeColors(0,204,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00CCFF">
+                            <a href="#" onclick="ChangeColors(0,204,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00FF00">
+                            <a href="#" onclick="ChangeColors(0,255,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00FF33">
+                            <a href="#" onclick="ChangeColors(0,255,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00FF66">
+                            <a href="#" onclick="ChangeColors(0,255,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00FF99">
+                            <a href="#" onclick="ChangeColors(0,255,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00FFCC">
+                            <a href="#" onclick="ChangeColors(0,255,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#00FFFF">
+                            <a href="#" onclick="ChangeColors(0,255,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="11" width="11" bgcolor="#330000">
+                            <a href="#" onclick="ChangeColors(51,0,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#330033">
+                            <a href="#" onclick="ChangeColors(51,0,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#330066">
+                            <a href="#" onclick="ChangeColors(51,0,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#330099">
+                            <a href="#" onclick="ChangeColors(51,0,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3300CC">
+                            <a href="#" onclick="ChangeColors(51,0,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3300FF">
+                            <a href="#" onclick="ChangeColors(51,0,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#333300">
+                            <a href="#" onclick="ChangeColors(51,51,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#333333">
+                            <a href="#" onclick="ChangeColors(51,51,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#333366">
+                            <a href="#" onclick="ChangeColors(51,51,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#333399">
+                            <a href="#" onclick="ChangeColors(51,51,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3333CC">
+                            <a href="#" onclick="ChangeColors(51,51,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3333FF">
+                            <a href="#" onclick="ChangeColors(51,51,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#336600">
+                            <a href="#" onclick="ChangeColors(51,102,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#336633">
+                            <a href="#" onclick="ChangeColors(51,102,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#336666">
+                            <a href="#" onclick="ChangeColors(51,102,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#336699">
+                            <a href="#" onclick="ChangeColors(51,102,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3366CC">
+                            <a href="#" onclick="ChangeColors(51,102,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3366FF">
+                            <a href="#" onclick="ChangeColors(51,102,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#339900">
+                            <a href="#" onclick="ChangeColors(51,153,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#339933">
+                            <a href="#" onclick="ChangeColors(51,153,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#339966">
+                            <a href="#" onclick="ChangeColors(51,153,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#339999">
+                            <a href="#" onclick="ChangeColors(51,153,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3399CC">
+                            <a href="#" onclick="ChangeColors(51,153,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#3399FF">
+                            <a href="#" onclick="ChangeColors(51,153,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33CC00">
+                            <a href="#" onclick="ChangeColors(51,204,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33CC33">
+                            <a href="#" onclick="ChangeColors(51,204,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33CC66">
+                            <a href="#" onclick="ChangeColors(51,204,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33CC99">
+                            <a href="#" onclick="ChangeColors(51,204,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33CCCC">
+                            <a href="#" onclick="ChangeColors(51,204,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33CCFF">
+                            <a href="#" onclick="ChangeColors(51,204,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33FF00">
+                            <a href="#" onclick="ChangeColors(51,255,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33FF33">
+                            <a href="#" onclick="ChangeColors(51,255,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33FF66">
+                            <a href="#" onclick="ChangeColors(51,255,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33FF99">
+                            <a href="#" onclick="ChangeColors(51,255,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33FFCC">
+                            <a href="#" onclick="ChangeColors(51,255,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#33FFFF">
+                            <a href="#" onclick="ChangeColors(51,255,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="11" width="11" bgcolor="#660000">
+                            <a href="#" onclick="ChangeColors(102,0,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#660033">
+                            <a href="#" onclick="ChangeColors(102,0,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#660066">
+                            <a href="#" onclick="ChangeColors(102,0,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#660099">
+                            <a href="#" onclick="ChangeColors(102,0,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6600CC">
+                            <a href="#" onclick="ChangeColors(102,0,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6600FF">
+                            <a href="#" onclick="ChangeColors(102,0,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#663300">
+                            <a href="#" onclick="ChangeColors(102,51,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#663333">
+                            <a href="#" onclick="ChangeColors(102,51,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#663366">
+                            <a href="#" onclick="ChangeColors(102,51,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#663399">
+                            <a href="#" onclick="ChangeColors(102,51,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6633CC">
+                            <a href="#" onclick="ChangeColors(102,51,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6633FF">
+                            <a href="#" onclick="ChangeColors(102,51,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#666600">
+                            <a href="#" onclick="ChangeColors(102,102,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#666633">
+                            <a href="#" onclick="ChangeColors(102,102,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#666666">
+                            <a href="#" onclick="ChangeColors(102,102,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#666699">
+                            <a href="#" onclick="ChangeColors(102,102,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6666CC">
+                            <a href="#" onclick="ChangeColors(102,102,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6666FF">
+                            <a href="#" onclick="ChangeColors(102,102,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#669900">
+                            <a href="#" onclick="ChangeColors(102,153,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#669933">
+                            <a href="#" onclick="ChangeColors(102,153,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#669966">
+                            <a href="#" onclick="ChangeColors(102,153,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#669999">
+                            <a href="#" onclick="ChangeColors(102,153,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6699CC">
+                            <a href="#" onclick="ChangeColors(102,153,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#6699FF">
+                            <a href="#" onclick="ChangeColors(102,153,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66CC00">
+                            <a href="#" onclick="ChangeColors(102,204,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66CC33">
+                            <a href="#" onclick="ChangeColors(102,204,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66CC66">
+                            <a href="#" onclick="ChangeColors(102,204,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66CC99">
+                            <a href="#" onclick="ChangeColors(102,204,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66CCCC">
+                            <a href="#" onclick="ChangeColors(102,204,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66CCFF">
+                            <a href="#" onclick="ChangeColors(102,204,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66FF00">
+                            <a href="#" onclick="ChangeColors(102,255,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66FF33">
+                            <a href="#" onclick="ChangeColors(102,255,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66FF66">
+                            <a href="#" onclick="ChangeColors(102,255,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66FF99">
+                            <a href="#" onclick="ChangeColors(102,255,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66FFCC">
+                            <a href="#" onclick="ChangeColors(102,255,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#66FFFF">
+                            <a href="#" onclick="ChangeColors(102,255,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="11" width="11" bgcolor="#990000">
+                            <a href="#" onclick="ChangeColors(153,0,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#990033">
+                            <a href="#" onclick="ChangeColors(153,0,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#990066">
+                            <a href="#" onclick="ChangeColors(153,0,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#990099">
+                            <a href="#" onclick="ChangeColors(153,0,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9900CC">
+                            <a href="#" onclick="ChangeColors(153,0,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9900FF">
+                            <a href="#" onclick="ChangeColors(153,0,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#993300">
+                            <a href="#" onclick="ChangeColors(153,51,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#993333">
+                            <a href="#" onclick="ChangeColors(153,51,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#993366">
+                            <a href="#" onclick="ChangeColors(153,51,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#993399">
+                            <a href="#" onclick="ChangeColors(153,51,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9933CC">
+                            <a href="#" onclick="ChangeColors(153,51,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9933FF">
+                            <a href="#" onclick="ChangeColors(153,51,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#996600">
+                            <a href="#" onclick="ChangeColors(153,102,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#996633">
+                            <a href="#" onclick="ChangeColors(153,102,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#996666">
+                            <a href="#" onclick="ChangeColors(153,102,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#996699">
+                            <a href="#" onclick="ChangeColors(153,102,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9966CC">
+                            <a href="#" onclick="ChangeColors(153,102,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9966FF">
+                            <a href="#" onclick="ChangeColors(153,102,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#999900">
+                            <a href="#" onclick="ChangeColors(153,153,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#999933">
+                            <a href="#" onclick="ChangeColors(153,153,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#999966">
+                            <a href="#" onclick="ChangeColors(153,153,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#999999">
+                            <a href="#" onclick="ChangeColors(153,153,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9999CC">
+                            <a href="#" onclick="ChangeColors(153,153,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#9999FF">
+                            <a href="#" onclick="ChangeColors(153,153,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99CC00">
+                            <a href="#" onclick="ChangeColors(153,204,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99CC33">
+                            <a href="#" onclick="ChangeColors(153,204,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99CC66">
+                            <a href="#" onclick="ChangeColors(153,204,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99CC99">
+                            <a href="#" onclick="ChangeColors(153,204,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99CCCC">
+                            <a href="#" onclick="ChangeColors(153,204,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99CCFF">
+                            <a href="#" onclick="ChangeColors(153,204,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99FF00">
+                            <a href="#" onclick="ChangeColors(153,255,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99FF33">
+                            <a href="#" onclick="ChangeColors(153,255,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99FF66">
+                            <a href="#" onclick="ChangeColors(153,255,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99FF99">
+                            <a href="#" onclick="ChangeColors(153,255,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99FFCC">
+                            <a href="#" onclick="ChangeColors(153,255,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#99FFFF">
+                            <a href="#" onclick="ChangeColors(153,255,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="11" width="11" bgcolor="#CC0000">
+                            <a href="#" onclick="ChangeColors(204,0,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC0033">
+                            <a href="#" onclick="ChangeColors(204,0,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC0066">
+                            <a href="#" onclick="ChangeColors(204,0,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC0099">
+                            <a href="#" onclick="ChangeColors(204,0,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC00CC">
+                            <a href="#" onclick="ChangeColors(204,0,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC00FF">
+                            <a href="#" onclick="ChangeColors(204,0,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC3300">
+                            <a href="#" onclick="ChangeColors(204,51,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC3333">
+                            <a href="#" onclick="ChangeColors(204,51,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC3366">
+                            <a href="#" onclick="ChangeColors(204,51,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC3399">
+                            <a href="#" onclick="ChangeColors(204,51,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC33CC">
+                            <a href="#" onclick="ChangeColors(204,51,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC33FF">
+                            <a href="#" onclick="ChangeColors(204,51,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC6600">
+                            <a href="#" onclick="ChangeColors(204,102,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC6633">
+                            <a href="#" onclick="ChangeColors(204,102,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC6666">
+                            <a href="#" onclick="ChangeColors(204,102,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC6699">
+                            <a href="#" onclick="ChangeColors(204,102,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC66CC">
+                            <a href="#" onclick="ChangeColors(204,102,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC66FF">
+                            <a href="#" onclick="ChangeColors(204,102,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC9900">
+                            <a href="#" onclick="ChangeColors(204,153,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC9933">
+                            <a href="#" onclick="ChangeColors(204,153,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC9966">
+                            <a href="#" onclick="ChangeColors(204,153,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC9999">
+                            <a href="#" onclick="ChangeColors(204,153,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC99CC">
+                            <a href="#" onclick="ChangeColors(204,153,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CC99FF">
+                            <a href="#" onclick="ChangeColors(204,153,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCCC00">
+                            <a href="#" onclick="ChangeColors(204,204,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCCC33">
+                            <a href="#" onclick="ChangeColors(204,204,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCCC66">
+                            <a href="#" onclick="ChangeColors(204,204,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCCC99">
+                            <a href="#" onclick="ChangeColors(204,204,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCCCCC">
+                            <a href="#" onclick="ChangeColors(204,204,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCCCFF">
+                            <a href="#" onclick="ChangeColors(204,204,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCFF00">
+                            <a href="#" onclick="ChangeColors(204,255,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCFF33">
+                            <a href="#" onclick="ChangeColors(204,255,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCFF66">
+                            <a href="#" onclick="ChangeColors(204,255,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCFF99">
+                            <a href="#" onclick="ChangeColors(204,255,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCFFCC">
+                            <a href="#" onclick="ChangeColors(204,255,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#CCFFFF">
+                            <a href="#" onclick="ChangeColors(204,255,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="11" width="11" bgcolor="#FF0000">
+                            <a href="#" onclick="ChangeColors(255,0,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF0033">
+                            <a href="#" onclick="ChangeColors(255,0,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF0066">
+                            <a href="#" onclick="ChangeColors(255,0,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF0099">
+                            <a href="#" onclick="ChangeColors(255,0,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF00CC">
+                            <a href="#" onclick="ChangeColors(255,0,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF00FF">
+                            <a href="#" onclick="ChangeColors(255,0,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF3300">
+                            <a href="#" onclick="ChangeColors(255,51,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF3333">
+                            <a href="#" onclick="ChangeColors(255,51,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF3366">
+                            <a href="#" onclick="ChangeColors(255,51,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF3399">
+                            <a href="#" onclick="ChangeColors(255,51,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF33CC">
+                            <a href="#" onclick="ChangeColors(255,51,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF33FF">
+                            <a href="#" onclick="ChangeColors(255,51,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF6600">
+                            <a href="#" onclick="ChangeColors(255,102,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF6633">
+                            <a href="#" onclick="ChangeColors(255,102,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF6666">
+                            <a href="#" onclick="ChangeColors(255,102,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF6699">
+                            <a href="#" onclick="ChangeColors(255,102,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF66CC">
+                            <a href="#" onclick="ChangeColors(255,102,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF66FF">
+                            <a href="#" onclick="ChangeColors(255,102,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF9900">
+                            <a href="#" onclick="ChangeColors(255,153,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF9933">
+                            <a href="#" onclick="ChangeColors(255,153,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF9966">
+                            <a href="#" onclick="ChangeColors(255,153,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF9999">
+                            <a href="#" onclick="ChangeColors(255,153,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF99CC">
+                            <a href="#" onclick="ChangeColors(255,153,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FF99FF">
+                            <a href="#" onclick="ChangeColors(255,153,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFCC00">
+                            <a href="#" onclick="ChangeColors(255,204,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFCC33">
+                            <a href="#" onclick="ChangeColors(255,204,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFCC66">
+                            <a href="#" onclick="ChangeColors(255,204,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFCC99">
+                            <a href="#" onclick="ChangeColors(255,204,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFCCCC">
+                            <a href="#" onclick="ChangeColors(255,204,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFCCFF">
+                            <a href="#" onclick="ChangeColors(255,204,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFFF00">
+                            <a href="#" onclick="ChangeColors(255,255,0); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFFF33">
+                            <a href="#" onclick="ChangeColors(255,255,51); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFFF66">
+                            <a href="#" onclick="ChangeColors(255,255,102); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFFF99">
+                            <a href="#" onclick="ChangeColors(255,255,153); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFFFCC">
+                            <a href="#" onclick="ChangeColors(255,255,204); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                        <td height="11" width="11" bgcolor="#FFFFFF">
+                            <a href="#" onclick="ChangeColors(255,255,255); return false;">
+                                <img src="clear.gif" height="11" width="11" border="0">
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

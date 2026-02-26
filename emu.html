@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国动车组信息查询系统 | 天天科技</title>
+    <link rel="icon" href="天天科技.ico" type="image/x-icon">
+    <style>
+        /* 基础样式 */
+        :root {
+            --primary-color: #00ffcc;
+            --secondary-color: #00ccff;
+            --dark-bg: #0a0a1a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background: linear-gradient(135deg, #000, #1a1a3a);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-title {
+            text-align: center;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+        }
+        
+        /* 搜索区域 */
+        .search-section {
+            background: url('tech-bg.jpg') no-repeat center center/cover;
+            padding: 60px 20px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
+        .search-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.2);
+        }
+        
+        .search-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .search-button {
+            padding: 0 30px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: black;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.4);
+        }
+        
+        /* 结果展示 */
+        .result-container {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 1px solid rgba(0, 255, 204, 0.1);
+        }
+        
+        .emu-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .emu-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .emu-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .detail-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .detail-title {
+            color: var(--secondary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        /* 分类筛选 */
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-button {
+            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-button:hover, .filter-button.active {
+            background: var(--primary-color);
+            color: black;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.8rem;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-button {
+                width: 100%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="header-title">中国动车组信息查询系统</h1>
+        </div>
+    </header>
+    
+    <section class="search-section">
+        <div class="search-container">
+            <h2 class="search-title">查询动车组详细信息</h2>
+            
+            <div class="filter-section">
+                <button class="filter-button active" data-filter="all">全部</button>
+                <button class="filter-button" data-filter="CRH">CRH系列</button>
+                <button class="filter-button" data-filter="CR">CR系列</button>
+                <button class="filter-button" data-filter="city">城际动车</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="输入动车组型号，如CRH380A、CR400BF等">
+                <button class="search-button">查询</button>
+            </div>
+            
+            <div class="result-container" id="resultContainer">
+                <h2 class="emu-title" id="emuTitle">CRH380A</h2>
+                <img src="emu-placeholder.jpg" alt="动车组图片" class="emu-image" id="emuImage">
+                
+                <div class="emu-details">
+                    <div class="detail-card">
+                        <h3 class="detail-title">基本信息</h3>
+                        <p><strong>制造商：</strong><span id="manufacturer">中车四方</span></p>
+                        <p><strong>设计时速：</strong><span id="designSpeed">380 km/h</span></p>
+                        <p><strong>运营时速：</strong><span id="operationSpeed">300 km/h</span></p>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3 class="detail-title">技术参数</h3>
+                        <p><strong>编组方式：</strong><span id="formation">8辆编组(6M2T)</span></p>
+                        <p><strong>供电制式：</strong><span id="powerSupply">AC 25kV 50Hz</span></p>
+                        <p><strong>定员：</strong><span id="capacity">556人</span></p>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3 class="detail-title">运营信息</h3>
+                        <p><strong>首列下线：</strong><span id="firstRollout">2010年</span></p>
+                        <p><strong>投入运营：</strong><span id="serviceStart">2011年</span></p>
+                        <p><strong>主要线路：</strong><span id="mainLines">京沪高铁、京广高铁</span></p>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <h3 class="detail-title">技术特点</h3>
+                        <p id="features">采用铝合金车体、流线型设计，具有优异的空气动力学性能</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // 动车组数据库
+        const emuDatabase = {
+            "CRH380A": {
+                "name": "CRH380A",
+                "manufacturer": "中车四方",
+                "designSpeed": "380 km/h",
+                "operationSpeed": "300 km/h",
+                "formation": "8辆编组(6M2T)",
+                "powerSupply": "AC 25kV 50Hz",
+                "capacity": "556人",
+                "firstRollout": "2010年",
+                "serviceStart": "2011年",
+                "mainLines": "京沪高铁、京广高铁",
+                "features": "采用铝合金车体、流线型设计，具有优异的空气动力学性能",
+                "image": "crh380a.jpg",
+                "type": "CRH"
+            },
+            "CR400BF": {
+                "name": "CR400BF",
+                "manufacturer": "中车长客",
+                "designSpeed": "400 km/h",
+                "operationSpeed": "350 km/h",
+                "formation": "8辆编组(4M4T)",
+                "powerSupply": "AC 25kV 50Hz",
+                "capacity": "576人",
+                "firstRollout": "2016年",
+                "serviceStart": "2017年",
+                "mainLines": "京沪高铁、京广高铁",
+                "features": "复兴号系列，完全自主知识产权，智能化程度高",
+                "image": "cr400bf.jpg",
+                "type": "CR"
+            },
+            "CRH6A": {
+                "name": "CRH6A",
+                "manufacturer": "中车四方",
+                "designSpeed": "200 km/h",
+                "operationSpeed": "160 km/h",
+                "formation": "8辆编组(4M4T)",
+                "powerSupply": "AC 25kV 50Hz",
+                "capacity": "558人",
+                "firstRollout": "2012年",
+                "serviceStart": "2013年",
+                "mainLines": "长三角、珠三角城际铁路",
+                "features": "专为城际铁路设计，启停快、载客量大",
+                "image": "crh6a.jpg",
+                "type": "city"
+            }
+        };
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchButton = document.querySelector('.search-button');
+            const searchInput = document.querySelector('.search-input');
+            const resultContainer = document.getElementById('resultContainer');
+            const filterButtons = document.querySelectorAll('.filter-button');
+            
+            // 查询功能
+            searchButton.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim().toUpperCase();
+                
+                if (emuDatabase[searchTerm]) {
+                    displayEmuInfo(emuDatabase[searchTerm]);
+                    resultContainer.style.display = 'block';
+                } else {
+                    alert('未找到该型号的动车组信息，请尝试CRH380A、CR400BF或CRH6A');
+                }
+            });
+            
+            // 分类筛选
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filterType = this.dataset.filter;
+                    // 这里可以添加筛选逻辑
+                });
+            });
+            
+            // 默认显示一个动车组信息
+            displayEmuInfo(emuDatabase['CRH380A']);
+            resultContainer.style.display = 'block';
+        });
+        
+        // 显示动车组信息
+        function displayEmuInfo(emu) {
+            document.getElementById('emuTitle').textContent = emu.name;
+            document.getElementById('emuImage').src = emu.image;
+            document.getElementById('manufacturer').textContent = emu.manufacturer;
+            document.getElementById('designSpeed').textContent = emu.designSpeed;
+            document.getElementById('operationSpeed').textContent = emu.operationSpeed;
+            document.getElementById('formation').textContent = emu.formation;
+            document.getElementById('powerSupply').textContent = emu.powerSupply;
+            document.getElementById('capacity').textContent = emu.capacity;
+            document.getElementById('firstRollout').textContent = emu.firstRollout;
+            document.getElementById('serviceStart').textContent = emu.serviceStart;
+            document.getElementById('mainLines').textContent = emu.mainLines;
+            document.getElementById('features').textContent = emu.features;
+        }
+    </script>
+</body>
+</html>

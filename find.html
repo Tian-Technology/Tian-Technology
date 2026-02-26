@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tian-Tech - 招贤纳士</title>
+    <link rel="icon" href="天天科技.ico" type="image/x-icon">
+    <style>
+        /* 科技感背景 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #000000, #0f0033, #1a0066);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* 粒子动画 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-20vh) translateX(10vw) scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-40vh) translateX(20vw) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 数据流动画 */
+        .data-stream {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .data-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.5), transparent);
+            animation: dataFlow 15s linear infinite;
+        }
+
+        @keyframes dataFlow {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* 通用样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e0e0;
+        }
+
+        body {
+            background: #000;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .search-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 001.48-5.34c-.47-2.78-2.79-5-5.59-5.34a6.505 6.505 0 00-7.27 7.27c.34 2.8 2.56 5.12 5.34 5.59a6.5 6.5 0 005.34-1.48l.27.28v.79l4.25 4.25c.41.41 1.08.41 1.49 0 .41-.41.41-1.08 0-1.49L15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>');
+            background-repeat: no-repeat;
+        }
+
+        .control-panel-btn {
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-panel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .pro-btn {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            border-radius: 4px;
+            padding: 5px 10px;
+            color: #00ffcc;
+        }
+
+        .enterprise-btn {
+            background: rgba(0, 204, 255, 0.1);
+            border: 1px solid #00ccff;
+            border-radius: 4px;
+            padding: 5px 10px;
+            color: #00ccff;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .main-banner {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('tech-bg.jpg') no-repeat center center/cover;
+            isolation: isolate;
+        }
+
+        .main-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+            z-index: -1;
+        }
+
+        .big-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sub-content {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        /* 内容区样式 */
+        .tech-section {
+            padding: 100px 5%;
+            position: relative;
+            overflow: hidden;
+            z-index: 5;
+        }
+
+        .tech-section:nth-child(odd) {
+            background: rgba(10, 0, 20, 0.9);
+        }
+
+        .tech-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+        }
+
+        .content-block {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .content-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .content-text p {
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        /* 核心技术展示 */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.3);
+        }
+
+        .tech-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #00ffcc;
+        }
+
+        .tech-card p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .big-title {
+                font-size: 2.5rem;
+            }
+
+            .sub-content {
+                font-size: 1.2rem;
+            }
+
+            .content-block {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    <div class="data-stream"></div>
+    <header class="header">
+        <img src="Tech.png" width="120" alt="Tian-Tech Logo">
+        <div class="nav-links">
+            <a href="index.html">天天科技</a>
+            <a href="product.html">产品</a>
+            <a href="https://www.github.com" target="_blank" rel="noopener noreferrer">开发者社区</a>
+            <a href="https://www.jetbrains.com" target="_blank" rel="noopener noreferrer">开发工具</a>
+            <a href="about us.html">关于我们</a>
+            <a href="support.html">支持</a>
+            <a href="home.html">天天之家</a>
+        </div>
+    </header>
+
+    <section class="main-banner">
+        <div class="banner-content">
+            <h1 class="big-title">加入我们，共创科技未来</h1>
+            <p class="sub-content">
+                我们正在寻找充满激情和创造力的人才，一起推动科技的进步。
+            </p>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <h2 class="section-title">招聘职位</h2>
+        <div class="content-block">
+            <div class="content-text">
+                <h3>前端开发工程师</h3>
+                <p>职位要求：</p>
+                <ul>
+                    <li>熟练掌握HTML、CSS、JavaScript，熟悉主流前端框架（如React、Vue）</li>
+                    <li>具备良好的代码规范和团队协作能力</li>
+                    <li>有性能优化和跨浏览器兼容性经验者优先</li>
+                </ul>
+                <p>投递方式1：请将简历发送至 <span class="highlight">tiantechnology@163.com</span>，邮件主题注明 "前端开发工程师 - 姓名"</p>
+                 <p>投递方式2：请致电 <span class="highlight">19883387835</span></p>
+                <h3>后端开发工程师</h3>
+                <p>职位要求：</p>
+                <ul>
+                    <li>熟练掌握Python、Java等至少一种后端开发语言</li>
+                    <li>熟悉数据库设计和开发，有SQL和NoSQL使用经验</li>
+                    <li>了解微服务架构和容器化技术（如Docker、Kubernetes）</li>
+                </ul>
+                <p>投递方式1：请将简历发送至 <span class="highlight">tiantechnology@163.com</span>，邮件主题注明 "后端开发工程师 - 姓名"</p>
+                <p>投递方式2：请致电 <span class="highlight">19883387835</span></p>
+                <h3>AI算法工程师</h3>
+                <p>职位要求：</p>
+                <ul>
+                    <li>计算机、数学等相关专业硕士及以上学历</li>
+                    <li>熟练掌握深度学习框架（如TensorFlow、PyTorch）</li>
+                    <li>有NLP、CV等领域项目经验者优先</li>
+                </ul>
+                <p>投递方式1：请将简历发送至 <span class="highlight">tiantechnology@163.com</span>，邮件主题注明 "AI算法工程师 - 姓名"</p>
+                <p>投递方式2：请致电 <span class="highlight">19883387835</span></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="page-footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>产品</h4>
+                <a href="ChatALEt.html">ChatALE</a>
+                <a href="AL.html">ALtual Studio</a>
+                <a href="https://www.jetbrains.com" target="_blank" rel="noopener noreferrer">团队工具</a>
+                <a href="https://www.adobe.com" target="_blank" rel="noopener noreferrer">插件</a>
+                <a href="https://www.xkw.com" target="_blank" rel="noopener noreferrer">教育</a>
+                <a href="https://www.iciba.com" target="_blank" rel="noopener noreferrer">语言</a>
+                <a href="product.html">所有产品</a>
+            </div>
+            <div class="footer-column">
+                <h4>解决方案</h4>
+                <a href="https://www.jyshare.com/compile/12/" target="_blank" rel="noopener noreferrer">C++ 工具</a>
+                <a href="number.html">数据工具</a>
+                <a href="devops.html">DevOps</a>
+                <a href="game.html">游戏开发</a>
+                <a href="#">业务工具</a>
+            </div>
+            <div class="footer-column">
+                <h4>计划</h4>
+                <a href="Kotlin.html">Kotlin</a>
+                <a href="ChatSER.html">ChatSER</a>
+                <a href="research.html">Tain tech Research</a>
+                <a href="chatALE-V1t.html">开源项目</a>
+            </div>
+
+            <div class="footer-column">
+                <h4>资源</h4>
+                <a href="buy support.html">销售支持</a>
+                <a href="pro support.html">产品支持</a>
+                <a href="answer.html">许可常见问题解答</a>
+                <a href="doc.html">文档</a>
+                <a href="try.html">抢先体验</a>
+                <a href="activity.html">活动和直播</a>
+            </div>
+            <div class="footer-column">
+                <h4>公司</h4>
+                <a href="about us.html">关于我们</a>
+                <a href="call.html">联系方式</a>
+                <a href="find.html">招贤纳士</a>
+                <a href="news.html">新闻</a>
+                <a href="#">客户和荣誉</a>
+                <a href="#">我们的承诺</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="region-lang">
+                <a href="#">中国大陆</a>
+                <a href="#">简体中文</a>
+            </div>
+            <div class="legal-links">
+                <a href="private and safe.html">隐私和安全</a>
+                <a href="private doc.html">隐私声明</a>
+                <a href="rules.html">使用条款</a>
+                <a href="from.html">归属</a>
+                <a href="law.html">法律信息</a>
+                <a href="https://www.jyshare.com/" target="_blank" rel="noopener noreferrer">正版工具</a>
+            </div>
+            <div class="copyright">
+                <p>Copyright © 2024-2025 T.Technology</p>
+                <p>Developed with CELECORGE</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

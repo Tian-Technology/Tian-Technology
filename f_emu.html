@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国国家动车组全系列型号查询工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header class="bg-blue-600 text-white p-4 text-center">
+        <h1 class="text-3xl font-bold">中国国家动车组全系列型号查询工具</h1>
+    </header>
+    <main class="flex-grow p-8 flex flex-col items-center">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+            <div class="mb-4">
+                <label for="search-input" class="block text-gray-700 font-bold mb-2">输入动车组型号:</label>
+                <input type="text" id="search-input"
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="例如: CRH1A">
+            </div>
+            <button id="search-button"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                <i class="fa-solid fa-magnifying-glass"></i> 查询
+            </button>
+        </div>
+        <div id="result" class="mt-8 bg-white p-8 rounded-lg shadow-md w-full max-w-3xl">
+            <h2 class="text-xl font-bold mb-4">查询结果</h2>
+            <ul id="result-list" class="space-y-4"></ul>
+        </div>
+    </main>
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        &copy; 2025 中国国家动车组查询工具
+    </footer>
+    <script>
+        const emus = [
+            {
+                model: "CRH1A",
+                nickname: "大地铁",
+                details: "8节编组座车，由青岛四方庞巴迪铁路运输设备有限公司生产，设计时速200km/h，主要用于中短途城际运输。"
+            },
+            {
+                model: "CRH1B",
+                nickname: "长大地铁",
+                details: "16节大编组座车，同样由青岛四方庞巴迪生产，设计时速200km/h，可增加运量，适合客流量较大的线路。"
+            },
+            {
+                model: "CRH1E",
+                nickname: "卧铺地铁",
+                details: "16节长编组卧铺动车组，由青岛四方庞巴迪制造，设计时速200km/h，为长途旅行提供了舒适的卧铺选择。"
+            },
+            {
+                model: "CRH1A-A",
+                nickname: "大地铁升级版",
+                details: "是CRH1A的改进型，优化了部分性能和设施，依然适用于中短途运输。"
+            },
+            {
+                model: "CRH2A",
+                nickname: "带鱼",
+                details: "8节编组座车，由中车四方股份公司生产，设计时速200km/h，广泛应用于国内多条客运专线。"
+            },
+            {
+                model: "CRH2B",
+                nickname: "长带鱼",
+                details: "16节大编组座车，中车四方股份公司制造，设计时速200km/h，能满足大运量的运输需求。"
+            },
+            {
+                model: "CRH2C",
+                nickname: "高速带鱼",
+                details: "8节编组座车，中车四方股份公司出品，设计时速300-350km/h，具备较高的运行速度，用于高速线路。"
+            },
+            {
+                model: "CRH2C-2",
+                nickname: "高速带鱼II型",
+                details: "在CRH2C基础上进一步改进，提升了高速运行的稳定性和安全性。"
+            },
+            {
+                model: "CRH2E",
+                nickname: "卧铺带鱼",
+                details: "16节长编组卧铺动车组，中车四方股份公司生产，设计时速200km/h，为长途旅客提供卧铺服务。"
+            },
+            {
+                model: "CRH3C",
+                nickname: "兔子",
+                details: "8节编组座车，由中车唐山公司和西门子合作生产，设计时速300-350km/h，在高速运行方面表现出色。"
+            },
+            {
+                model: "CRH5A",
+                nickname: "驴",
+                details: "8节编组座车，由中车长春轨道客车股份有限公司生产，设计时速200km/h，适应多种复杂的运营环境。"
+            },
+            {
+                model: "CRH5G",
+                nickname: "高寒驴",
+                details: "适应高寒环境的动车组，能在低温、冰雪等恶劣条件下安全运行，由中车长客制造。"
+            },
+            {
+                model: "CRH380A",
+                nickname: "老鼠",
+                details: "8节编组座车，中车四方股份公司研发制造，设计时速380km/h，是中国高速动车组的标志性产品之一。"
+            },
+            {
+                model: "CRH380AL",
+                nickname: "长老鼠",
+                details: "16节长编组座车，中车四方股份公司生产，设计时速380km/h，可大幅提高运输能力。"
+            },
+            {
+                model: "CRH380B",
+                nickname: "鲨鱼",
+                details: "8节编组座车，中车长春轨道客车股份有限公司制造，设计时速380km/h，在高速性能和乘坐舒适性方面有较好表现。"
+            },
+            {
+                model: "CRH380BL",
+                nickname: "长鲨鱼",
+                details: "16节长编组座车，中车长春轨道客车股份有限公司出品，设计时速380km/h，能承载大量旅客。"
+            },
+            {
+                model: "CRH380C",
+                nickname: "海豚",
+                details: "8节编组座车，中车唐山公司生产，设计时速380km/h，具备先进的技术和良好的运行品质。"
+            },
+            {
+                model: "CRH380D",
+                nickname: "飞鱼",
+                details: "8节编组座车，由中车南京浦镇车辆有限公司和阿尔斯通合作生产，设计时速380km/h，在空气动力学等方面有优化设计。"
+            },
+            {
+                model: "CR400AF",
+                nickname: "红神龙",
+                details: "复兴号家族成员，8节编组座车，中车四方股份公司研制，设计时速350km/h，采用大量新技术，智能化程度高。"
+            },
+            {
+                model: "CR400AF-A",
+                nickname: "红神龙加长版",
+                details: "是CR400AF的改进型，8节编组座车，中车四方股份公司生产，设计时速350km/h，在舒适性和可靠性上进一步提升。"
+            },
+            {
+                model: "CR400AF-B",
+                nickname: "红神龙超长版",
+                details: "17节超长编组座车，中车四方股份公司制造，设计时速350km/h，极大地提高了运输能力。"
+            },
+            {
+                model: "CR400AF-C",
+                nickname: "红神龙定制版",
+                details: "在CR400AF基础上进行了适应性改进，以满足不同线路的运营需求。"
+            },
+            {
+                model: "CR400BF",
+                nickname: "金凤凰",
+                details: "复兴号家族成员，8节编组座车，中车长春轨道客车股份有限公司研制，设计时速350km/h，具有良好的运行性能和安全性能。"
+            },
+            {
+                model: "CR400BF-A",
+                nickname: "金凤凰加长版",
+                details: "8节编组座车，是CR400BF的改进型号，中车长春轨道客车股份有限公司生产，设计时速350km/h，在技术上有进一步优化。"
+            },
+            {
+                model: "CR400BF-B",
+                nickname: "金凤凰超长版",
+                details: "17节超长编组座车，中车长春轨道客车股份有限公司制造，设计时速350km/h，能满足大运量的运输需求。"
+            },
+            {
+                model: "CR400BF-C",
+                nickname: "金凤凰定制版",
+                details: "对CR400BF进行改进，增强了部分性能，以适应特定的运营场景。"
+            },
+            {
+                model: "CR200J",
+                nickname: "绿巨人",
+                details: "动力集中式动车组，有短编组和长编组等形式，由中车唐山公司、中车大连公司等生产，设计时速160km/h，适用于低等级线路和城际通勤。"
+            },
+            {
+                model: "CR200J-G",
+                nickname: "高寒绿巨人",
+                details: "适应高寒环境的动力集中式动车组，可在寒冷地区稳定运行。"
+            },
+            {
+                model: "CR300AF",
+                nickname: "蓝暖男",
+                details: "复兴号系列动车组，8节编组座车，中车四方股份公司生产，设计时速250km/h，为不同速度等级的线路提供了合适的选择。"
+            },
+            {
+                model: "CR300BF",
+                nickname: "蓝妹妹",
+                details: "复兴号系列动车组，8节编组座车，中车长春轨道客车股份有限公司制造，设计时速250km/h，兼顾了速度和经济性。"
+            },
+            {
+                model: "CRH6A",
+                nickname: "大地铁6型",
+                details: "主要用于城际铁路，具有启动加速快、启停站点多等特点，由中车四方股份公司生产。"
+            },
+            {
+                model: "CRH6F",
+                nickname: "城际快车",
+                details: "适用于市域快轨，速度相对较低，但在短途通勤方面表现出色，由中车四方股份公司制造。"
+            },
+            {
+                model: "CRH6S",
+                nickname: "灵活小地铁",
+                details: "可实现小编组灵活运营，适用于客流量较小的城际线路。"
+            },
+            {
+                model: "CRH6FA",
+                nickname: "升级城际快车",
+                details: "在CRH6F基础上进行改进，提升了性能和舒适性。"
+            },
+            {
+                model: "CRH3A",
+                nickname: "新兔子",
+                details: "结合了CRH3和其他车型的优点，在性能和舒适性上有较好平衡，适用于多种线路。"
+            },
+            {
+                model: "CRH6Z",
+                nickname: "特种地铁",
+                details: "专为特定区域或线路设计，具备一些独特的性能特点以适应运营需求。"
+            },
+            {
+                model: "CR400AF-G",
+                nickname: "高寒红神龙",
+                details: "复兴号高寒版，适应极寒环境，确保在寒冷地区安全、稳定运行。"
+            },
+            {
+                model: "CR400BF-G",
+                nickname: "高寒金凤凰",
+                details: "同样是复兴号高寒版，中车长客制造，能抵御低温等恶劣气候。"
+            },
+            {
+                model: "CR300AF-B",
+                nickname: "长蓝暖男",
+                details: "在CR300AF基础上的大编组版本，可增加运量。"
+            },
+            {
+                model: "CR300BF-B",
+                nickname: "长蓝妹妹",
+                details: "CR300BF的大编组型号，满足较大客流量运输需求。"
+            },
+            // 新增30种车型
+            {
+                model: "CRH2G",
+                nickname: "高寒带鱼",
+                details: "适应高寒环境的CRH2系列动车组，能在-40℃低温下正常运行，由中车四方股份公司制造。"
+            },
+            {
+                model: "CRH3X",
+                nickname: "试验兔",
+                details: "基于CRH3平台研发的实验型动车组，用于测试新技术和新材料，未投入商业运营。"
+            },
+            {
+                model: "CRH5E",
+                nickname: "卧铺驴",
+                details: "卧铺动车组版本，设计时速250km/h，为长途夜间线路提供舒适卧铺服务。"
+            },
+            {
+                model: "CRH5J",
+                nickname: "检测驴",
+                details: "基于CRH5平台改造的检测列车，用于线路检测和信号测试。"
+            },
+            {
+                model: "CRH6A-A",
+                nickname: "新大地铁",
+                details: "CRH6A的改进型号，优化了加速性能和载客量，更适合高峰时段运营。"
+            },
+            {
+                model: "CRH6F-A",
+                nickname: "新城市快车",
+                details: "CRH6F的升级版，提高了乘坐舒适度和能源效率。"
+            },
+            {
+                model: "CRH6S-A",
+                nickname: "灵活小地铁II型",
+                details: "小编组城际动车组的改进型号，可根据客流灵活调整编组数量。"
+            },
+            {
+                model: "CRH380AJ",
+                nickname: "检测鼠",
+                details: "基于CRH380A平台改造的高速综合检测列车，用于高铁线路检测。"
+            },
+            {
+                model: "CRH380BJ",
+                nickname: "检测鲨",
+                details: "基于CRH380B平台改造的高速检测列车，配备先进检测设备。"
+            },
+            {
+                model: "CRH380CL",
+                nickname: "长海豚",
+                details: "16节编组的CRH380C系列动车组，提高了运输能力。"
+            },
+            {
+                model: "CR400AF-Z",
+                nickname: "智能红神龙",
+                details: "智能化升级版复兴号，配备自动驾驶系统和智能运维功能。"
+            },
+            {
+                model: "CR400BF-Z",
+                nickname: "智能金凤凰",
+                details: "智能化升级版复兴号，具有车地通信和智能调度功能。"
+            },
+            {
+                model: "CR400AF-BZ",
+                nickname: "智能长红神龙",
+                details: "17节编组的智能化复兴号动车组，兼具大运量和智能技术。"
+            },
+            {
+                model: "CR400BF-BZ",
+                nickname: "智能长金凤凰",
+                details: "17节编组的智能化复兴号动车组，适合繁忙干线运营。"
+            },
+            {
+                model: "CR200J-S",
+                nickname: "双层绿巨人",
+                details: "双层动力集中式动车组，提高载客量同时保持160km/h时速。"
+            },
+            {
+                model: "CR300AF-G",
+                nickname: "高寒蓝暖男",
+                details: "适应高寒环境的CR300AF动车组，可在寒冷地区稳定运行。"
+            },
+            {
+                model: "CR300BF-G",
+                nickname: "高寒蓝妹妹",
+                details: "适应高寒环境的CR300BF动车组，专为东北地区设计。"
+            },
+            {
+                model: "CRH2J",
+                nickname: "检测带鱼",
+                details: "基于CRH2平台改造的综合检测列车，用于线路检测。"
+            },
+            {
+                model: "CRH3E",
+                nickname: "卧铺兔",
+                details: "基于CRH3平台研发的卧铺动车组，设计时速250km/h。"
+            },
+            {
+                model: "CRH5H",
+                nickname: "混动驴",
+                details: "混合动力版本，可在非电气化区段以柴油动力运行。"
+            },
+            {
+                model: "CRH6E",
+                nickname: "城际卧铺",
+                details: "城际铁路卧铺动车组，适合夜间城际运输需求。"
+            },
+            {
+                model: "CRH6M",
+                nickname: "地铁式动车",
+                details: "地铁式布局的城际动车组，站立区更多，适合短途高频运输。"
+            },
+            {
+                model: "CR400AF-E",
+                nickname: "豪华红神龙",
+                details: "商务豪华版复兴号，配备高级座椅和设施，提供优质服务。"
+            },
+            {
+                model: "CR400BF-E",
+                nickname: "豪华金凤凰",
+                details: "商务豪华版复兴号，内饰豪华，服务标准更高。"
+            },
+            {
+                model: "CR200J-D",
+                nickname: "定制绿巨人",
+                details: "可根据客户需求定制内饰和配置的动力集中式动车组。"
+            },
+            {
+                model: "CR300AF-C",
+                nickname: "定制蓝暖男",
+                details: "可根据线路需求定制配置的CR300AF动车组。"
+            },
+            {
+                model: "CR300BF-C",
+                nickname: "定制蓝妹妹",
+                details: "可根据线路需求定制配置的CR300BF动车组。"
+            },
+            {
+                model: "CRH2K",
+                nickname: "快速带鱼",
+                details: "优化加速性能的CRH2系列动车组，适合站距短的线路。"
+            },
+            {
+                model: "CRH3D",
+                nickname: "双层兔",
+                details: "基于CRH3平台研发的双层动车组，提高载客量。"
+            },
+            {
+                model: "CRH5K",
+                nickname: "快速驴",
+                details: "优化加速性能的CRH5动车组，适合频繁启停的线路。"
+            }
+        ];
+
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const resultList = document.getElementById('result-list');
+
+        searchButton.addEventListener('click', () => {
+            const query = searchInput.value.trim().toUpperCase();
+            resultList.innerHTML = '';
+
+            if (query === '') {
+                emus.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.className = "p-4 border-b border-gray-200";
+                    listItem.innerHTML = `
+                        <div class="font-bold text-lg">${item.model} <span class="text-blue-600 text-sm">"${item.nickname}"</span></div>
+                        <div class="text-gray-700 mt-1">${item.details}</div>
+                    `;
+                    resultList.appendChild(listItem);
+                });
+            } else {
+                const filteredModels = emus.filter(item => 
+                    item.model.toUpperCase().includes(query) || 
+                    (item.nickname && item.nickname.toUpperCase().includes(query))
+                );
+                
+                if (filteredModels.length === 0) {
+                    const listItem = document.createElement('li');
+                    listItem.className = "p-4 text-center text-gray-500";
+                    listItem.textContent = '未找到匹配的型号或绰号。';
+                    resultList.appendChild(listItem);
+                } else {
+                    filteredModels.forEach(item => {
+                        const listItem = document.createElement('li');
+                        listItem.className = "p-4 border-b border-gray-200";
+                        listItem.innerHTML = `
+                            <div class="font-bold text-lg">${item.model} <span class="text-blue-600 text-sm">"${item.nickname}"</span></div>
+                            <div class="text-gray-700 mt-1">${item.details}</div>
+                        `;
+                        resultList.appendChild(listItem);
+                    });
+                }
+            }
+        });
+
+        // 初始显示所有车型
+        searchButton.click();
+    </script>
+</body>
+
+</html>

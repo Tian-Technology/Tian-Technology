@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YTX的云盘 - 天天科技</title>
+    <link rel="icon" href="天天科技.ico" type="image/x-icon">
+    <style>
+        /* 科技感背景 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #000000, #0f0033, #1a0066);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* 粒子动画 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-20vh) translateX(10vw) scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-40vh) translateX(20vw) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 云盘内容样式 */
+        .cloud-container {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cloud-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .file-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .file-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #00ccff;
+        }
+
+        .file-name {
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <header class="header">
+        <img src="Tech.png" width="120" alt="Tian-Tech Logo">
+        <div class="nav-links">
+            <a href="index.html">首页</a>
+            <a href="tiancloudlogin.html">退出登录</a>
+        </div>
+    </header>
+
+    <div class="cloud-container">
+        <h1 class="cloud-title">YTX的个人云盘</h1>
+        <div class="file-list">
+            <div class="file-item">
+                <div class="file-icon">📁</div>
+                <div class="file-name">个人文档</div>
+                <div class="file-size">15.2 MB</div>
+            </div>
+            <div class="file-item">
+                <div class="file-icon">📁</div>
+                <div class="file-name">工作资料</div>
+                <div class="file-size">32.7 MB</div>
+            </div>
+            <div class="file-item">
+                <div class="file-icon">📁</div>
+                <div class="file-name">照片</div>
+                <div class="file-size">128.5 MB</div>
+            </div>
+            <div class="file-item">
+                <div class="file-icon">📁</div>
+                <div class="file-name">音乐</div>
+                <div class="file-size">256.3 MB</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 粒子动画生成
+        const particles = [];
+        const count = 150;
+        const colors = ['#00ffcc', '#00ccff', '#0099ff'];
+
+        for (let i = 0; i < count; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 5 + 5 + 's';
+            particle.style.animationDelay = -(Math.random() * 5) + 's';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            document.querySelector('.particles').appendChild(particle);
+            particles.push(particle);
+        }
+    </script>
+</body>
+</html>

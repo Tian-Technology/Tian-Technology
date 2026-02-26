@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天天科技 - 导航中心</title>
+    <link rel="icon" href="天天科技.ico" type="image/x-icon">
+    <style>
+        /* 科技感背景 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at 50% 50%, #000000, #0f0033, #1a0066);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* 粒子动画 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-20vh) translateX(10vw) scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-40vh) translateX(20vw) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 通用样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e0e0e0;
+        }
+
+        body {
+            background: #000;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 0 5%;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .nav-card {
+            background: rgba(20, 20, 40, 0.7);
+            border-radius: 10px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.2);
+            border-color: rgba(0, 255, 204, 0.3);
+        }
+
+        .nav-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-card p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .nav-links-list {
+            list-style: none;
+        }
+
+        .nav-links-list li {
+            margin-bottom: 10px;
+        }
+
+        .nav-links-list a {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            color: #000;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            border-radius: 30px;
+            transition: all 0.3s;
+            margin: 8px 0;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.2);
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav-links-list a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 204, 0.3);
+            background: linear-gradient(135deg, #00ccff, #00ffcc);
+        }
+
+        .nav-links-list a:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links-list a {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .page-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 50px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -10px;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(135deg, #00ffcc, #00ccff);
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    <header class="header">
+        <img src="Tech.png" width="120" alt="Tian-Tech Logo">
+        <div class="nav-links">
+            <a href="index.html">天天科技</a>
+            <a href="product.html">产品</a>
+            <a href="https://www.github.com" target="_blank" rel="noopener noreferrer">开发者社区</a>
+            <a href="https://www.jetbrains.com" target="_blank" rel="noopener noreferrer">开发工具</a>
+            <a href="about us.html">关于我们</a>
+            <a href="support.html">支持</a>
+            <a href="home.html">天天之家</a>
+        </div>
+    </header>
+
+    <div class="nav-container">
+        <h1 class="page-title">天天科技导航中心</h1>
+        
+        <div class="nav-grid">
+            <!-- 产品导航 -->
+            <div class="nav-card">
+                <h2>产品中心</h2>
+                <p>探索我们的创新产品和解决方案</p>
+                <ul class="nav-links-list">
+                    <li><a href="ChatALEt.html">ChatALE - AI对话</a></li>
+                    <li><a href="AL.html">ALtual Studio</a></li>
+                    <li><a href="PyWrapper.html">PyWrapper</a></li>
+                    <li><a href="LightningOS.html">LightningOS</a></li>
+                    <li><a href="EduTrack.html">EduTrack</a></li>
+                    <li><a href="TaskFlow.html">TaskFlow</a></li>
+                    <li><a href="LightningChat.html">LightningChat（调试中）</a></li>
+                    <li><a href="product.html">查看所有产品 →</a></li>
+                </ul>
+            </div>
+            
+            <!-- 技术支持 -->
+            <div class="nav-card">
+                <h2>技术支持</h2>
+                <p>获取产品使用帮助和技术文档</p>
+                <ul class="nav-links-list">
+                    <li><a href="support.html">技术支持中心</a></li>
+                    <li><a href="doc.html">产品文档</a></li>
+                    <li><a href="answer.html">常见问题</a></li>
+                    <li><a href="download.html">下载中心</a></li>
+                    <li><a href="https://tiantechsupport.mysxl.cn" target="_blank" rel="noopener noreferrer">售后支持</a></li>
+                    <li><a href="buy support.html">购买支持</a></li>
+                </ul>
+            </div>
+            
+            <!-- 关于我们 -->
+            <div class="nav-card">
+                <h2>关于我们</h2>
+                <p>了解天天科技的使命和团队</p>
+                <ul class="nav-links-list">
+                    <li><a href="about us.html">公司简介</a></li>
+                    <li><a href="research.html">技术研究</a></li>
+                </ul>
+            </div>
+            
+            <!-- 资源中心 -->
+            <div class="nav-card">
+                <h2>资源中心</h2>
+                <p>开发者资源和学习材料</p>
+                <ul class="nav-links-list">
+                    <li><a href="search.php">天天科技搜索引擎</a></li>
+                    <li><a href="download_site.html">天天科技下载站</a></li>
+                    <li><a href="2tool.html">AI工具</a></li>
+                    <li><a href="code.html">开源项目</a></li>
+                    <li><a href="https://www.github.com">开发者社区</a></li>
+                    <li><a href="https://www.jetbrains.com">开发工具</a></li>
+                    <li><a href="book.html">天天博客</a></li>
+                    <li><a href="useful_tool.html">天天实用工具</a></li>
+                    <li><a href="https://www.tiantechtrain.mysxl.cn">天天高铁迷之家</a></li>
+                    <li><a href="buy support.html">购买支持</a></li>
+                </ul>
+            </div>
+            <div class="nav-card">
+                <h2>娱乐中心</h2>
+               <p>来自天天科技的放松中心</p>
+                <ul class="nav-links-list">
+                    <li><a href="games.html">天天游戏大厅</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 粒子动画生成
+        const particles = [];
+        const count = 150;
+        const colors = ['#00ffcc', '#00ccff', '#0099ff'];
+
+        for (let i = 0; i < count; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 5 + 5 + 's';
+            particle.style.animationDelay = -(Math.random() * 5) + 's';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            document.querySelector('.particles').appendChild(particle);
+            particles.push(particle);
+        }
+    </script>
+</body>
+</html>

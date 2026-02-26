@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天天动车组社区 - 铁路爱好者的家园</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #ffd700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: white;
+            color: #2a5298;
+        }
+
+        /* 英雄区域 */
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><rect fill="%231e3c72" width="1000" height="300"/><path d="M0,250 Q250,200 500,250 T1000,250 L1000,300 L0,300 Z" fill="%232a5298"/><path d="M0,220 Q250,180 500,220 T1000,220 L1000,250 L0,250 Z" fill="%233273dc"/><path d="M0,200 L50,180 L100,200 L150,180 L200,200 L250,180 L300,200 L350,180 L400,200 L450,180 L500,200 L550,180 L600,200 L650,180 L700,200 L750,180 L800,200 L850,180 L900,200 L950,180 L1000,200 L1000,220 L0,220 Z" fill="%2341b883"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        /* 特色板块样式 */
+        .features {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e3c72;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e3c72;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-button {
+            display: inline-block;
+            background-color: #1e3c72;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .feature-button:hover {
+            background-color: #2a5298;
+        }
+
+        /* 最新资讯样式 */
+        .latest-news {
+            padding: 4rem 5%;
+            background-color: #e8f0fe;
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .news-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+
+        .news-content {
+            padding: 2rem;
+        }
+
+        .news-category {
+            display: inline-block;
+            background-color: #1e3c72;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .news-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e3c72;
+        }
+
+        .news-content p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: #1e3c72;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .read-more::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #1e3c72;
+            transition: width 0.3s ease;
+        }
+
+        .read-more:hover::after {
+            width: 100%;
+        }
+
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .news-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .news-date {
+            color: #666;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .news-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: #1e3c72;
+        }
+
+        .news-item p {
+            color: #666;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* 社区介绍 */
+        .community-intro {
+            background-color: #e8f0fe;
+            padding: 4rem 5%;
+        }
+
+        .intro-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 3rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .intro-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .intro-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #1e3c72;
+        }
+
+        .intro-content p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem 5% 1rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-about h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffd700;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-3px);
+        }
+
+        .news-item h4 a {
+            color: #1e3c72;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .news-item h4 a:hover {
+            color: #2a5298;
+            text-decoration: underline;
+        }
+
+        .more-news {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .more-news-button {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .more-news-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(30, 60, 114, 0.4);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-image {
+                height: 200px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-train"></i>
+                天天动车组社区
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="/index.html">Tian-Tech首页</a></li>
+                <li><a href="train-time.php">列车时刻</a></li>
+                <li><a href="canshu.html">参数配置</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索内容...">
+                </div>
+                <button class="login-btn">登录/注册</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>欢迎来到天天动车组社区</h1>
+            <p>中国最大的铁路爱好者交流平台，分享铁路资讯、列车体验和技术知识</p>
+            <a href="#" class="cta-button">立即加入</a>
+        </div>
+    </section>
+
+    <!-- 特色板块 -->
+    <section class="features">
+        <h2 class="section-title">热门功能</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>列车时刻查询</h3>
+                <p>实时查询全国列车时刻表，包括高铁、动车、普速列车等，提供准确的到发时间信息。</p>
+                <a href="train-time.php" class="feature-button">立即查询</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h3>参数配置</h3>
+                <p>查看各类列车技术参数，包括车型、编组、速度等级等详细信息。</p>
+                <a href="canshu.html" class="feature-button">查看参数</a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3>调图数据</h3>
+                <p>查看最新的铁路运行图调整信息，包括2026年一季度全国铁路调图数据。</p>
+                <a href="news/2026-1-26-railway-adjustment.html" class="feature-button">查看调图</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最新资讯 -->
+    <section class="latest-news">
+        <h2 class="section-title">最新资讯</h2>
+        <div class="news-container">
+            <div class="news-card featured">
+                <div class="news-image">
+                    <img src="https://picsum.photos/seed/railway1/800/400.jpg" alt="铁路新闻">
+                </div>
+                <div class="news-content">
+                    <span class="news-category">调图公告</span>
+                    <h3>2026年1月26日全国铁路一季度调图正式实施</h3>
+                    <p>全国铁路将于2026年1月26日零时起实行一季度列车运行图，新增多趟高铁列车，优化既有线路运行方案，提升旅客出行体验。</p>
+                    <a href="news/2026-1-26-railway-adjustment.html" class="read-more">阅读全文</a>
+                </div>
+            </div>
+            <div class="news-list">
+                <div class="news-item">
+                    <div class="news-meta">
+                        <span class="news-date">2025-12-15</span>
+                        <span class="news-category">技术交流</span>
+                    </div>
+                    <h4><a href="news/fuxing-intelligent-tech.html">新一代复兴号智能动车组技术解析</a></h4>
+                    <p>深入了解新一代复兴号智能动车组的创新技术和设计理念。</p>
+                </div>
+                <div class="news-item">
+                    <div class="news-meta">
+                        <span class="news-date">2025-12-10</span>
+                        <span class="news-category">线路资讯</span>
+                    </div>
+                    <h4><a href="news/jingzhang-5g-coverage.html">京张高铁实现全线5G信号覆盖</a></h4>
+                    <p>京张高铁全线实现5G信号覆盖，为旅客提供更优质的网络服务体验。</p>
+                </div>
+                <div class="news-item">
+                    <div class="news-meta">
+                        <span class="news-date">2025-12-05</span>
+                        <span class="news-category">社区活动</span>
+                    </div>
+                    <h4><a href="news/railway-photo-contest.html">年度铁路摄影大赛作品征集开始</a></h4>
+                    <p>天天动车组社区年度铁路摄影大赛开始征集作品，欢迎广大摄影爱好者参与。</p>
+                </div>
+            </div>
+            <div class="more-news">
+                <a href="news/" class="more-news-button">查看更多新闻</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区介绍 -->
+    <section class="community-intro">
+        <div class="intro-container">
+            <div class="intro-content">
+                <h3>关于天天动车组社区</h3>
+                <p>天天动车组社区是中国领先的铁路爱好者交流平台，致力于为广大铁路迷提供一个专业、友好、开放的交流空间。</p>
+                <p>我们汇聚了来自全国各地的铁路爱好者，包括普通乘客、铁路职工、摄影爱好者和技术专家。在这里，您可以了解最新的铁路资讯，分享列车体验，学习铁路知识，参与线上线下活动。</p>
+                <p>社区成立以来，一直秉承"分享、交流、学习、进步"的理念，不断完善服务功能，提升用户体验，努力打造中国最具影响力的铁路爱好者社区。</p>
+                <p>欢迎加入我们，一起探索铁路世界的魅力！</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>
+                    <i class="fas fa-train"></i>
+                    天天动车组社区
+                </h3>
+                <p>中国最大的铁路爱好者交流平台，致力于分享铁路资讯、列车体验和技术知识，连接全国的铁路迷朋友。</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-qq"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">列车时刻</a></li>
+                    <li><a href="#">图片分享</a></li>
+                    <li><a href="#">技术交流</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>关于我们</h4>
+                <ul>
+                    <li><a href="#">社区简介</a></li>
+                    <li><a href="#">用户协议</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>技术支持</h4>
+                <ul>
+                    <li><a href="#">常见问题</a></li>
+                    <li><a href="#">帮助中心</a></li>
+                    <li><a href="#">反馈建议</a></li>
+                    <li><a href="#">技术文档</a></li>
+                    <li><a href="#">API接口</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 天天动车组社区. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome 图标 -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

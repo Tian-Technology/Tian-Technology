@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列车时刻表 - 天天动车组社区</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: #ffd700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .login-btn {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: white;
+            color: #2a5298;
+        }
+
+        /* 英雄区域 */
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><rect fill="%231e3c72" width="1000" height="300"/><path d="M0,250 Q250,200 500,250 T1000,250 L1000,300 L0,300 Z" fill="%232a5298"/><path d="M0,220 Q250,180 500,220 T1000,220 L1000,250 L0,250 Z" fill="%233273dc"/><path d="M0,200 L50,180 L100,200 L150,180 L200,200 L250,180 L300,200 L350,180 L400,200 L450,180 L500,200 L550,180 L600,200 L650,180 L700,200 L750,180 L800,200 L850,180 L900,200 L950,180 L1000,200 L1000,220 L0,220 Z" fill="%2341b883"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* 查询区域 */
+        .search-section {
+            background-color: white;
+            padding: 3rem 5%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .form-group input, .form-group select {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.2);
+        }
+
+        .search-btn {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(42, 82, 152, 0.4);
+        }
+
+        /* 时刻表区域 */
+        .timetable-section {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e3c72;
+        }
+
+        .timetable-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .timetable-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .route-info h3 {
+            font-size: 1.5rem;
+        }
+
+        .route-arrow {
+            font-size: 1.5rem;
+            color: #ffd700;
+        }
+
+        .date-info {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .timetable-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .timetable-table th {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+            color: #1e3c72;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .timetable-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .timetable-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .train-number {
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .departure-time {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .arrival-time {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .duration {
+            color: #666;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .book-btn {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* 页脚 */
+        footer {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 3rem 5% 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-about h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffd700;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: #ffd700;
+            color: #1e3c72;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .search-btn {
+                align-self: stretch;
+            }
+
+            .timetable-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .timetable-table {
+                font-size: 0.9rem;
+            }
+
+            .timetable-table th, .timetable-table td {
+                padding: 0.8rem 0.5rem;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-train"></i>
+                天天动车组社区
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="train-time.html" style="color: #ffd700;">列车时刻</a></li>
+                <li><a href="#">讨论区</a></li>
+                <li><a href="canshu.html">参数配置</a></li>
+                <li><a href="#">技术交流</a></li>
+                <li><a href="#">活动专区</a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="搜索内容...">
+                </div>
+                <button class="login-btn">登录/注册</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>列车时刻表查询</h1>
+            <p>实时查询全国列车时刻表，规划您的出行路线</p>
+        </div>
+    </section>
+
+    <!-- 查询区域 -->
+    <section class="search-section">
+        <div class="search-container">
+            <form class="search-form">
+                <div class="form-group">
+                    <label for="departure">出发地</label>
+                    <input type="text" id="departure" placeholder="请输入出发城市" value="北京">
+                </div>
+                <div class="form-group">
+                    <label for="destination">目的地</label>
+                    <input type="text" id="destination" placeholder="请输入目的城市" value="上海">
+                </div>
+                <div class="form-group">
+                    <label for="date">出发日期</label>
+                    <input type="date" id="date" value="2024-01-20">
+                </div>
+                <div class="form-group">
+                    <label for="train-type">列车类型</label>
+                    <select id="train-type">
+                        <option value="all">全部列车</option>
+                        <option value="g">高铁(G)</option>
+                        <option value="d">动车(D)</option>
+                        <option value="c">城际(C)</option>
+                        <option value="z">直达(Z)</option>
+                        <option value="t">特快(T)</option>
+                        <option value="k">快速(K)</option>
+                    </select>
+                </div>
+                <button type="submit" class="search-btn">查询</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- 时刻表区域 -->
+    <section class="timetable-section">
+        <h2 class="section-title">北京 - 上海 列车时刻表</h2>
+        <div class="timetable-container">
+            <div class="timetable-header">
+                <div class="route-info">
+                    <h3>北京南站</h3>
+                    <span class="route-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <h3>上海虹桥站</h3>
+                </div>
+                <div class="date-info">
+                    <i class="far fa-calendar"></i> 2024年1月20日 星期六
+                </div>
+            </div>
+            <table class="timetable-table">
+                <thead>
+                    <tr>
+                        <th>车次</th>
+                        <th>出发时间</th>
+                        <th>到达时间</th>
+                        <th>历时</th>
+                        <th>商务座</th>
+                        <th>一等座</th>
+                        <th>二等座</th>
+                        <th>无座</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="train-number">G1</span></td>
+                        <td><span class="departure-time">08:00</span></td>
+                        <td><span class="arrival-time">13:07</span></td>
+                        <td class="duration">5小时7分</td>
+                        <td class="price">¥1748</td>
+                        <td class="price">¥933</td>
+                        <td class="price">¥553</td>
+                        <td class="price">¥553</td>
+                        <td><button class="book-btn">预订</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="train-number">G5</span></td>
+                        <td><span class="departure-time">08:15</span></td>
+                        <td><span class="arrival-time">13:28</span></td>
+                        <td class="duration">5小时13分</td>
+                        <td class="price">¥1748</td>
+                        <td class="price">¥933</td>
+                        <td class="price">¥553</td>
+                        <td class="price">¥553</td>
+                        <td><button class="book-btn">预订</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="train-number">G101</span></td>
+                        <td><span class="departure-time">08:30</span></td>
+                        <td><span class="arrival-time">13:48</span></td>
+                        <td class="duration">5小时18分</td>
+                        <td class="price">¥1748</td>
+                        <td class="price">¥933</td>
+                        <td class="price">¥553</td>
+                        <td class="price">¥553</td>
+                        <td><button class="book-btn">预订</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="train-number">G11</span></td>
+                        <td><span class="departure-time">09:00</span></td>
+                        <td><span class="arrival-time">14:13</span></td>
+                        <td class="duration">5小时13分</td>
+                        <td class="price">¥1748</td>
+                        <td class="price">¥933</td>
+                        <td class="price">¥553</td>
+                        <td class="price">¥553</td>
+                        <td><button class="book-btn">预订</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="train-number">G15</span></td>
+                        <td><span class="departure-time">09:33</span></td>
+                        <td><span class="arrival-time">14:48</span></td>
+                        <td class="duration">5小时15分</td>
+                        <td class="price">¥1748</td>
+                        <td class="price">¥933</td>
+                        <td class="price">¥553</td>
+                        <td class="price">¥553</td>
+                        <td><button class="book-btn">预订</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="train-number">G19</span></td>
+                        <td><span class="departure-time">10:00</span></td>
+                        <td><span class="arrival-time">15:13</span></td>
+                        <td class="duration">5小时13分</td>
+                        <td class="price">¥1748</td>
+                        <td class="price">¥933</td>
+                        <td class="price">¥553</td>
+                        <td class="price">¥553</td>
+                        <td><button class="book-btn">预订</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <h3>
+                    <i class="fas fa-train"></i>
+                    天天动车组社区
+                </h3>
+                <p>中国最大的铁路爱好者交流平台，致力于分享铁路资讯、列车体验和技术知识，连接全国的铁路迷朋友。</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-weibo"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-weixin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-qq"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="train-time.html">列车时刻</a></li>
+                    <li><a href="#">讨论区</a></li>
+                    <li><a href="#">图片分享</a></li>
+                    <li><a href="#">技术交流</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>关于我们</h4>
+                <ul>
+                    <li><a href="#">社区简介</a></li>
+                    <li><a href="#">用户协议</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">加入我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>技术支持</h4>
+                <ul>
+                    <li><a href="#">常见问题</a></li>
+                    <li><a href="#">帮助中心</a></li>
+                    <li><a href="#">反馈建议</a></li>
+                    <li><a href="#">技术文档</a></li>
+                    <li><a href="#">API接口</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 天天动车组社区. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome 图标 -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
